@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 //hanbin checked
 //god yoohyuk bless me
+//hehe sooh
 
 public class MainActivity extends ActionBarActivity {
 
