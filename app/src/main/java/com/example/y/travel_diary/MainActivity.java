@@ -1,20 +1,44 @@
 package com.example.y.travel_diary;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-//hanbin checked
-//god yoohyuk bless me
-//hehe sooh
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void selectFrag(View view){
+        Fragment fr;
+
+        if(view == findViewById(R.id.button_main)){
+            fr = new FragmentMain();
+        }else if(view == findViewById(R.id.button_map)){
+            fr = new FragmentMap();
+        }else if(view == findViewById(R.id.button_list)){
+            fr = new FragmentList();
+        }else if(view == findViewById(R.id.button_planner)){
+            fr = new FragmentPlanner();
+        }else{
+            fr = new FragmentAlbum();
+        }
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_place, fr);
+        fragmentTransaction.commit();
+
     }
 
     @Override
