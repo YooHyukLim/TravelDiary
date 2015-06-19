@@ -19,7 +19,7 @@ import com.example.y.travel_diary.Fragments.FragmentPlanner;
 
 
 public class MainActivity extends Activity {
-    final static String TRAVEL_PREF = "cur_travel";
+    final public static String TRAVEL_PREF = "cur_travel";
     private SharedPreferences pref = null;
 
     @Override
