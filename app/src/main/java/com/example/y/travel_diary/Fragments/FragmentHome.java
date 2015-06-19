@@ -2,6 +2,8 @@ package com.example.y.travel_diary.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -49,7 +51,7 @@ public class FragmentHome extends Fragment {
 
         Cursor cursor = db.query(DataBaseHelper.TRAVEL_TABLE,
                 DataBaseHelper.TRAVEL_COL, null, new String[] {}, null, null,
-                DataBaseHelper.TRAVEL_SDATE + " ASC");
+                DataBaseHelper.TRAVEL_EDATE + " ASC");
 
         // If there isn't any travel information, show the button for adding new travel.
         if(cursor.getCount() == 0) {
@@ -77,6 +79,12 @@ public class FragmentHome extends Fragment {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("id", tadapter.getItem(position).get_id());
                 editor.commit();
+
+                Fragment fr = new FragmentMain();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_place, fr);
+                fragmentTransaction.commit();
             }
         });
 
