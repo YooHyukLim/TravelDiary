@@ -1,7 +1,5 @@
 package com.example.y.travel_diary.Activities;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;

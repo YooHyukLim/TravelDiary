@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.BucketItem;
-import com.example.y.travel_diary.Utils.TravelItem;
 
 public class BucketListLayout extends RelativeLayout{
     TextView nameText = null;

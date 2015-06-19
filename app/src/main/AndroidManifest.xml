@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.y.travel_diary.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +20,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.AddNewTravel"/>
-        <activity android:name=".Activities.AddNewBucket"/>
-        <activity android:name=".Activities.AddNewMap"/>
+        <activity android:name="com.example.y.travel_diary.Activities.AddNewTravel"/>
+        <activity android:name="com.example.y.travel_diary.Activities.AddNewBucket"/>
+        <activity android:name="com.example.y.travel_diary.Activities.AddNewMap"/>
     </application>
 
 </manifest>
