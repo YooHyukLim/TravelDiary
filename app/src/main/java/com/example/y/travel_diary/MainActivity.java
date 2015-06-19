@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.y.travel_diary.Fragments.FragmentAlbum;
+import com.example.y.travel_diary.Fragments.FragmentHome;
 import com.example.y.travel_diary.Fragments.FragmentList;
 import com.example.y.travel_diary.Fragments.FragmentMain;
 import com.example.y.travel_diary.Fragments.FragmentMap;
@@ -17,33 +19,62 @@ import com.example.y.travel_diary.Fragments.FragmentPlanner;
 
 
 public class MainActivity extends Activity {
+    final static String TRAVEL_PREF = "cur_travel";
+    private SharedPreferences pref = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Get the preference which indicates the information of
+        // the current travel.
+        pref = getSharedPreferences(TRAVEL_PREF, MODE_PRIVATE);
+
+        Fragment fr;
+        if ((pref != null) && (pref.contains("id")))
+            fr = new FragmentMain();
+        else
+            fr = new FragmentHome();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_place, fr);
+        fragmentTransaction.commit();
     }
 
-    public void selectFrag(View view){
-        Fragment fr;
+    // Change the fragment properly according to the Buttons clicked.
+    public void selectFrag(View view) {
+        Fragment fr = null;
 
-        if(view == findViewById(R.id.button_main)){
-            fr = new FragmentMain();
-        }else if(view == findViewById(R.id.button_map)){
-            fr = new FragmentMap();
-        }else if(view == findViewById(R.id.button_list)){
-            fr = new FragmentList();
-        }else if(view == findViewById(R.id.button_planner)){
-            fr = new FragmentPlanner();
-        }else{
-            fr = new FragmentAlbum();
+        switch (view.getId()) {
+            case R.id.button_home:
+                fr = new FragmentHome();
+                break;
+            case R.id.button_main:
+                fr = new FragmentMain();
+                break;
+            case R.id.button_map:
+                fr = new FragmentMap();
+                break;
+            case R.id.button_list:
+                fr = new FragmentList();
+                break;
+            case R.id.button_planner:
+                fr = new FragmentPlanner();
+                break;
+            case R.id.button_album:
+                fr = new FragmentAlbum();
+                break;
         }
+
+        if (fr == null)
+            return;
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_place, fr);
         fragmentTransaction.commit();
-
     }
 
     @Override
