@@ -22,15 +22,20 @@ import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
 public class FragmentHome extends Fragment {
+    private SharedPreferences pref = null;
     private DataBaseHelper dbhelper = null;
     private SQLiteDatabase db = null;
     private TravelListAdapter tadapter = null;
     private ListView list_travel = null;
     private View view = null;
+    private int id = -1;
     private int position = -1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.home_fragment, container, false);
+
+        pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
+        id = pref.getInt("id", -1);
 
         dbhelper = new DataBaseHelper(getActivity());
         db = dbhelper.getWritableDatabase();
@@ -102,9 +107,11 @@ public class FragmentHome extends Fragment {
         builder.setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                int cid = tadapter.getItem(position).get_id();
+
                 db.delete(DataBaseHelper.TRAVEL_TABLE,
                         DataBaseHelper._ID + "=?",
-                        new String[]{String.valueOf(tadapter.getItem(position).get_id())});
+                        new String[]{String.valueOf(cid)});
                 tadapter.remove(position);
                 tadapter.notifyDataSetChanged();
 
@@ -112,6 +119,12 @@ public class FragmentHome extends Fragment {
                     view.findViewById(R.id.list_travel).setVisibility(View.GONE);
                     view.findViewById(R.id.image_new_start).setVisibility(View.GONE);
                     view.findViewById(R.id.button_new_start).setVisibility(View.VISIBLE);
+                }
+
+                if(cid == id) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putInt("id", -1);
+                    editor.commit();
                 }
             }
         });

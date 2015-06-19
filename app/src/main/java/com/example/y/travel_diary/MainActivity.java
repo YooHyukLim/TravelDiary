@@ -24,7 +24,6 @@ import com.example.y.travel_diary.Fragments.FragmentPlanner;
 public class MainActivity extends Activity {
     final public static String TRAVEL_PREF = "cur_travel";
     private SharedPreferences pref = null;
-    private int id = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,7 @@ public class MainActivity extends Activity {
         pref = getSharedPreferences(TRAVEL_PREF, MODE_PRIVATE);
 
         Fragment fr;
-        if ((pref != null) && (pref.contains("id"))) {
-            id = pref.getInt("id", -1);
+        if ((pref != null) && pref.getInt("id", -1) != -1) {
             fr = new FragmentMain();
         } else
             fr = new FragmentHome();
@@ -51,6 +49,9 @@ public class MainActivity extends Activity {
     // Change the fragment properly according to the Buttons clicked.
     public void selectFrag(View view) {
         Fragment fr = null;
+
+        if(pref.getInt("id", -1) == -1)
+            return;
 
         switch (view.getId()) {
             case R.id.button_home:
@@ -110,8 +111,6 @@ public class MainActivity extends Activity {
     }
 
     public void gotoAddBucket(View view) {
-        if(id == -1)
-            return;
         Intent intent = new Intent(this, AddNewBucket.class);
         startActivity(intent);
     }
