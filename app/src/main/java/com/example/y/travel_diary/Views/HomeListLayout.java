@@ -39,7 +39,7 @@ public class HomeListLayout extends LinearLayout{
 
         Date sdate = new Date(ti.getSdate()*1000);
         Date edate = new Date(ti.getEdate()*1000);
-        SimpleDateFormat sd = new SimpleDateFormat("YYYY-M/d");
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/d");
         String date = sd.format(sdate).toString() + " ~ " + sd.format(edate).toString();
         dateText.setText(date);
     }
