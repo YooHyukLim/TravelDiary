@@ -29,9 +29,6 @@ public class AddNewTravel extends Activity {
     private TextView edatetext = null;
     private Date sdate = null;
     private Date edate = null;
-    private int year = 0;
-    private int month = 0;
-    private int day = 0;
     private int dbcheck = 0;
 
     @Override
@@ -69,9 +66,9 @@ public class AddNewTravel extends Activity {
         ContentValues values = new ContentValues();
         String text = nametext.getText().toString();
         if(!text.trim().equals("") && sdate != null && edate != null) {
-            values.put(dbhelper.PLAN_NAME, nametext.getText().toString());
-            values.put(dbhelper.PLAN_SDATE, sdate.getTime());
-            values.put(dbhelper.PLAN_EDATE, edate.getTime());
+            values.put(dbhelper.TRAVEL_NAME, nametext.getText().toString());
+            values.put(dbhelper.TRAVEL_SDATE, sdate.getTime());
+            values.put(dbhelper.TRAVEL_EDATE, edate.getTime());
 
             db.insert(dbhelper.TRAVEL_TABLE, null, values);
 

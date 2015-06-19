@@ -10,20 +10,16 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.y.travel_diary.Adapters.TravelListAdapter;
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
-import com.example.y.travel_diary.Utils.TravelItem;
 
 public class FragmentHome extends Fragment {
     private DataBaseHelper dbhelper = null;
@@ -47,7 +43,6 @@ public class FragmentHome extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
 
         Cursor cursor = db.query(DataBaseHelper.TRAVEL_TABLE,
                 DataBaseHelper.TRAVEL_COL, null, new String[] {}, null, null,
@@ -108,12 +103,12 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 db.delete(DataBaseHelper.TRAVEL_TABLE,
-                        DataBaseHelper._ID+"=?",
+                        DataBaseHelper._ID + "=?",
                         new String[]{String.valueOf(tadapter.getItem(position).get_id())});
                 tadapter.remove(position);
                 tadapter.notifyDataSetChanged();
 
-                if(tadapter.getCount() == 0) {
+                if (tadapter.getCount() == 0) {
                     view.findViewById(R.id.list_travel).setVisibility(View.GONE);
                     view.findViewById(R.id.image_new_start).setVisibility(View.GONE);
                     view.findViewById(R.id.button_new_start).setVisibility(View.VISIBLE);

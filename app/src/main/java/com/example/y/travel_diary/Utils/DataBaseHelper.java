@@ -30,7 +30,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     final public static String BUCKET_ID = "bid";
     final public static String BUCKET_NAME = "name";
     final public static String BUCKET_DONE = "done";
-    final public static String [] BUCKET_COL = {_ID, BUCKET_ID, BUCKET_NAME, BUCKET_DONE};
+    final public static String [] BUCKET_COL = {BUCKET_ID, BUCKET_NAME, BUCKET_DONE};
 
     final public static String PLAN_ID = "pid";
     final public static String PLAN_NAME = "name";

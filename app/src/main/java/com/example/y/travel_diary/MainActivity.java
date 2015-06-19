@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.y.travel_diary.Activities.AddNewBucket;
 import com.example.y.travel_diary.Activities.AddNewTravel;
 import com.example.y.travel_diary.Fragments.FragmentAlbum;
 import com.example.y.travel_diary.Fragments.FragmentHome;
@@ -23,6 +24,7 @@ import com.example.y.travel_diary.Fragments.FragmentPlanner;
 public class MainActivity extends Activity {
     final public static String TRAVEL_PREF = "cur_travel";
     private SharedPreferences pref = null;
+    private int id = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,10 @@ public class MainActivity extends Activity {
         pref = getSharedPreferences(TRAVEL_PREF, MODE_PRIVATE);
 
         Fragment fr;
-        if ((pref != null) && (pref.contains("id")))
+        if ((pref != null) && (pref.contains("id"))) {
+            id = pref.getInt("id", -1);
             fr = new FragmentMain();
-        else
+        } else
             fr = new FragmentHome();
 
         FragmentManager fm = getFragmentManager();
@@ -79,11 +82,6 @@ public class MainActivity extends Activity {
         fragmentTransaction.commit();
     }
 
-    public void gotoAddActivity(View view) {
-        Intent intent = new Intent(this, AddNewTravel.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -104,5 +102,17 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void gotoAddActivity(View view) {
+        Intent intent = new Intent(this, AddNewTravel.class);
+        startActivity(intent);
+    }
+
+    public void gotoAddBucket(View view) {
+        if(id == -1)
+            return;
+        Intent intent = new Intent(this, AddNewBucket.class);
+        startActivity(intent);
     }
 }
