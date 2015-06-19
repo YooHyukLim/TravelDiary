@@ -16,4 +16,18 @@
         android:layout_centerInParent="true"
         android:onClick="gotoAddActivity"
         android:text="@string/start_new_travel"/>
+
+    <ImageView
+        android:id="@+id/image_new_start"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/new_start"
+        android:onClick="gotoAddActivity"/>
 </RelativeLayout>

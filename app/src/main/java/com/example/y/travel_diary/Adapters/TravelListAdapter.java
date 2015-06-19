@@ -2,6 +2,7 @@ package com.example.y.travel_diary.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -44,8 +45,12 @@ public class TravelListAdapter extends BaseAdapter{
         travelList.add(ti);
     }
 
-    public void clear () {
+    public void clear() {
         travelList.clear();
+    }
+
+    public void remove(int position) {
+        travelList.remove(position);
     }
 
     @Override
