@@ -37,8 +37,8 @@ public class HomeListLayout extends LinearLayout{
     public void setItem(TravelItem ti) {
         nameText.setText(ti.getName());
 
-        Date sdate = new Date(ti.getSdate()*1000);
-        Date edate = new Date(ti.getEdate()*1000);
+        Date sdate = new Date(ti.getSdate());
+        Date edate = new Date(ti.getEdate());
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/d");
         String date = sd.format(sdate).toString() + " ~ " + sd.format(edate).toString();
         dateText.setText(date);
