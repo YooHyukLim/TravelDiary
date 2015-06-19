@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.y.travel_diary.Activities.AddNewTravel;
 import com.example.y.travel_diary.Fragments.FragmentAlbum;
 import com.example.y.travel_diary.Fragments.FragmentHome;
 import com.example.y.travel_diary.Fragments.FragmentList;
@@ -75,6 +77,11 @@ public class MainActivity extends Activity {
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_place, fr);
         fragmentTransaction.commit();
+    }
+
+    public void gotoAddActivity(View view) {
+        Intent intent = new Intent(this, AddNewTravel.class);
+        startActivity(intent);
     }
 
     @Override
