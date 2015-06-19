@@ -1,4 +1,4 @@
-package com.example.y.travel_diary;
+package com.example.y.travel_diary.Fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by วับ๓ on 2015-06-16.
- */
+import com.example.y.travel_diary.R;
+
 public class FragmentMap extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){

@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.y.travel_diary.Fragments.FragmentAlbum;
+import com.example.y.travel_diary.Fragments.FragmentList;
+import com.example.y.travel_diary.Fragments.FragmentMain;
+import com.example.y.travel_diary.Fragments.FragmentMap;
+import com.example.y.travel_diary.Fragments.FragmentPlanner;
 
 
 public class MainActivity extends Activity {

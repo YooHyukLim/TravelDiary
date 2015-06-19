@@ -55,11 +55,10 @@
 
     <fragment
         android:id="@+id/fragment_place"
-        android:name="com.example.y.travel_diary.FragmentMain"
+        android:name="com.example.y.travel_diary.Fragments.FragmentMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@id/buttons_layout"
-        android:layout_alignEnd="@id/buttons_layout"
+        android:layout_below="@id/buttons_layout"
         tools:layout="@layout/activity_main" />
 
 </RelativeLayout>
