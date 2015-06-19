@@ -27,13 +27,13 @@ public class BucketListAdapter extends BaseAdapter{
         int length = cursor.getCount();
         int bidCol = cursor.getColumnIndex(DataBaseHelper.BUCKET_ID);
         int nameCol = cursor.getColumnIndex(DataBaseHelper.BUCKET_NAME);
-        int bucketCol = cursor.getColumnIndex(DataBaseHelper.BUCKET_DONE);
+        int doneCol = cursor.getColumnIndex(DataBaseHelper.BUCKET_DONE);
 
         for (int i=0; i<length; i++) {
             cursor.moveToNext();
             BucketItem bi = new BucketItem(cursor.getInt(bidCol),
                                            cursor.getString(nameCol),
-                                           cursor.getInt(bucketCol) == 1);
+                                           cursor.getInt(doneCol) == 1);
             bucketlist.add(bi);
         }
     }

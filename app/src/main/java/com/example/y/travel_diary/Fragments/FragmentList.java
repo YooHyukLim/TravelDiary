@@ -61,6 +61,7 @@ public class FragmentList extends Fragment {
             } else {
                 create_bucket_view (view, cursor);
             }
+            cursor.close();
         }
     }
 

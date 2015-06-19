@@ -69,6 +69,7 @@ public class FragmentHome extends Fragment {
         view.findViewById(R.id.button_new_start).setVisibility(View.GONE);
         view.findViewById(R.id.image_new_start).setVisibility(View.VISIBLE);
         view.findViewById(R.id.list_travel).setVisibility(View.VISIBLE);
+
         tadapter = new TravelListAdapter(getActivity().getApplicationContext(), cursor);
         list_travel.setAdapter(tadapter);
 

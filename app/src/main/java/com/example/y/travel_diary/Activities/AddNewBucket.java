@@ -45,6 +45,7 @@ public class AddNewBucket extends Activity {
             cursor.moveToNext();
             max_bid = cursor.getInt(cursor.getColumnIndex(dbhelper.BUCKET_ID));
         }
+        cursor.close();
 
         nametext = (EditText) findViewById(R.id.bucket_name);
     }

@@ -23,9 +23,11 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     final public static String [] TRAVEL_COL = {_ID, TRAVEL_NAME, TRAVEL_SDATE, TRAVEL_EDATE};
 
     final public static String MAP_ID = "mid";
+    final public static String MAP_NAME = "name";
+    final public static String MAP_ADDRESS = "address";
     final public static String MAP_LONG = "long";
     final public static String MAP_LAT = "lat";
-    final public static String [] MAP_COL = {_ID, MAP_ID, MAP_LONG, MAP_LAT};
+    final public static String [] MAP_COL = {MAP_ID, MAP_NAME, MAP_ADDRESS, MAP_LONG, MAP_LAT};
 
     final public static String BUCKET_ID = "bid";
     final public static String BUCKET_NAME = "name";
@@ -51,6 +53,8 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             "create table if not exists " + MAP_TABLE
             + " (" + _ID + " integer not null"
             + ", " + MAP_ID + " integer not null"
+            + ", " + MAP_NAME + " text not null"
+            + ", " + MAP_ADDRESS + " text not null"
             + ", " + MAP_LONG + " real not null"
             + ", " + MAP_LAT + " real not null"
             + ", primary key (" + _ID +", "+ MAP_ID + ")"
