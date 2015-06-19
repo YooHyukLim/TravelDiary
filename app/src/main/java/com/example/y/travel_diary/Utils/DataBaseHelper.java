@@ -38,7 +38,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     final public static String PLAN_SDATE = "sdate"; // start time.
     final public static String PLAN_EDATE = "edate"; // end time.
     final public static String [] PLAN_COL = {_ID, PLAN_ID, PLAN_NAME, PLAN_CONTENT,
-                                        PLAN_SDATE, PLAN_EDATE};
+                                              PLAN_SDATE, PLAN_EDATE};
 
     /* Queries for creating tables. */
     final private static String CREATE_TRAVEL =
