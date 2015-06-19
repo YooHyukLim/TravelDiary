@@ -48,7 +48,8 @@ public class FragmentHome extends Fragment {
 
 
         Cursor cursor = db.query(DataBaseHelper.TRAVEL_TABLE,
-                DataBaseHelper.TRAVEL_COL, null, new String[] {}, null, null, null);
+                DataBaseHelper.TRAVEL_COL, null, new String[] {}, null, null,
+                DataBaseHelper.TRAVEL_SDATE + " ASC");
 
         // If there isn't any travel information, show the button for adding new travel.
         if(cursor.getCount() == 0) {
