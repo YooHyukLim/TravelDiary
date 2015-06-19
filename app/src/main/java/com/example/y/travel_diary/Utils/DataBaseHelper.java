@@ -43,14 +43,14 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     /* Queries for creating tables. */
     final private static String CREATE_TRAVEL =
             "create table if not exists " + TRAVEL_TABLE
-            + " (" + _ID + " integer primary key autoincrement"
+            + " (" + _ID + " integer primary key"
             + ", " + TRAVEL_NAME + " text not null"
             + ", " + TRAVEL_SDATE + " date not null"
             + ", " + TRAVEL_EDATE + " date not null);";
     final private static String CREATE_MAP =
             "create table if not exists " + MAP_TABLE
             + " (" + _ID + " integer not null"
-            + ", " + MAP_ID + " integer autoincrement"
+            + ", " + MAP_ID + " integer not null"
             + ", " + MAP_LONG + " real not null"
             + ", " + MAP_LAT + " real not null"
             + ", primary key (" + _ID +", "+ MAP_ID + ")"
@@ -59,7 +59,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     final private static String CREATE_BUCKET =
             "create table if not exists " + BUCKET_TABLE
             + " (" + _ID + " integer not null"
-            + ", " + BUCKET_ID + " integer autoincrement"
+            + ", " + BUCKET_ID + " integer not null"
             + ", " + BUCKET_NAME + " text not null"
             + ", " + BUCKET_DONE + " integer default 0"
             + ", primary key (" + _ID +", "+ BUCKET_ID + ")"
@@ -68,7 +68,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     final private static String CREATE_PLAN =
             "create table if not exists " + PLAN_TABLE
             + " (" + _ID + " integer not null"
-            + ", " + PLAN_ID + " integer autoincrement"
+            + ", " + PLAN_ID + " integer not null"
             + ", " + PLAN_NAME + " text not null"
             + ", " + PLAN_CONTENT + " text"
             + ", " + PLAN_SDATE + " date not null"
