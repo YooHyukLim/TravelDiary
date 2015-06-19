@@ -39,8 +39,9 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     final public static String PLAN_CONTENT = "content";
     final public static String PLAN_SDATE = "sdate"; // start time.
     final public static String PLAN_EDATE = "edate"; // end time.
+    final public static String PLAN_ALARM = "alarm";
     final public static String [] PLAN_COL = {_ID, PLAN_ID, PLAN_NAME, PLAN_CONTENT,
-                                              PLAN_SDATE, PLAN_EDATE};
+                                              PLAN_SDATE, PLAN_EDATE, PLAN_ALARM};
 
     /* Queries for creating tables. */
     final private static String CREATE_TRAVEL =
@@ -77,6 +78,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             + ", " + PLAN_CONTENT + " text"
             + ", " + PLAN_SDATE + " date not null"
             + ", " + PLAN_EDATE + " date not null"
+            + ", " + PLAN_ALARM + " integer default 0"
             + ", primary key (" + _ID +", "+ PLAN_ID + ")"
             + ", foreign key (" + _ID + ") references " + TRAVEL_TABLE + "(" + _ID + ")"
             + " on delete cascade on update cascade);";

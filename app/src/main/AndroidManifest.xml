@@ -23,6 +23,8 @@
         <activity android:name="com.example.y.travel_diary.Activities.AddNewTravel"/>
         <activity android:name="com.example.y.travel_diary.Activities.AddNewBucket"/>
         <activity android:name="com.example.y.travel_diary.Activities.AddNewMap"/>
+        <activity android:name="com.example.y.travel_diary.Activities.AddNewPlan"/>
+        <activity android:name="com.example.y.travel_diary.Activities.EditOldPlan"/>
     </application>
 
 </manifest>

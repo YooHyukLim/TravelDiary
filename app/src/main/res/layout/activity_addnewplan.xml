@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/plan_name"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:hint="Name"
+            android:padding="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ContentText"
+            android:textSize="30dp"
+            android:layout_below="@+id/plan_name"
+            android:hint="Content"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/plan_SdateText"
+            android:textSize="30dp"
+            android:layout_below="@+id/ContentText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Click and set Start date"
+            android:onClick="plan_SdateEdit"
+            android:clickable="true"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/plan_EdateText"
+            android:textSize="30dp"
+            android:layout_below="@+id/plan_SdateText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Click and set End date"
+            android:onClick="plan_EdateEdit"
+            android:clickable="true"
+            android:padding="10dp"/>
+
+        <Switch
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:textSize="30dp"
+            android:text="Alarm"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/plan_EdateText"
+            android:id="@+id/switchAlarm"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:textSize="20dp"
+            android:id="@+id/createButton2"
+            android:onClick="plan_insertDB"
+            android:layout_below="@+id/switchAlarm"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="70dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="20dp"
+            android:id="@+id/cancelButton2"
+            android:onClick="plan_cancel"
+            android:layout_below="@+id/switchAlarm"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="70dp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,14 +1,33 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:text="This is fragment Planner"
-        android:textStyle="bold"
+    <ListView
+        android:id="@+id/list_plan"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"/>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button_new_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:onClick="gotoAddPlan"
+        android:text="새로운 plan을 설정해주십시오"/>
+
+    <ImageView
+        android:id="@+id/image_new_plan"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bucket"
+        android:onClick="gotoAddPlan"/>
+</RelativeLayout>

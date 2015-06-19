@@ -10,11 +10,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:textSize="30sp"
-        android:textColor="@color/text"
-        android:shadowColor="@color/text_shadow"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="2"/>
+        android:textColor="@color/text"/>
 
     <ImageView
         android:id="@+id/bl_done"
