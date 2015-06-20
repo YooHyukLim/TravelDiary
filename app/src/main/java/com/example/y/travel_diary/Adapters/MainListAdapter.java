@@ -158,7 +158,8 @@ public class MainListAdapter extends BaseAdapter{
         ml.mapContainer.addView(ml.mapView);
 
         Cursor cursor = db.query(dbhelper.MAP_TABLE,
-                dbhelper.MAP_COL, null, new String[]{}, null, null,
+                dbhelper.MAP_COL,
+                dbhelper._ID + "=?", new String[]{String.valueOf(id)}, null, null,
                 dbhelper.MAP_ID + " ASC");
 
         MapPointBounds mapPointBounds = new MapPointBounds();

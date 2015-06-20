@@ -78,7 +78,8 @@ public class FragmentMap extends Fragment {
 
         if(pref != null && id != -1) {
             Cursor cursor = db.query(dbhelper.MAP_TABLE,
-                    dbhelper.MAP_COL, null, new String[]{}, null, null,
+                    dbhelper.MAP_COL,
+                    dbhelper._ID + "=?", new String[]{String.valueOf(id)}, null, null,
                     dbhelper.MAP_ID + " ASC");
 
             madapter = new MapListAdapter(getActivity(), cursor);
