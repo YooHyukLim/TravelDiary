@@ -69,10 +69,12 @@ public class MapListAdapter extends BaseAdapter{
         MapListLayout ml;
 
         if(convertView == null) {
-            ml = new MapListLayout(mContext, maplist.get(position));
+            ml = new MapListLayout(mContext);
         } else {
             ml = (MapListLayout) convertView;
         }
+
+        ml.setItem(maplist.get(position));
 
         return ml;
     }

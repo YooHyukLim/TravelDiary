@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by Y on 2015-06-20.
@@ -16,11 +17,9 @@ public class LocationTracker {
     private double longitude;
     private double accuracy;
 
-    private Location mBestReading;
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-    private boolean avail = false;
     private boolean availGPS = false;
     private boolean availNetwork = false;
     private String provider = null;
@@ -36,48 +35,35 @@ public class LocationTracker {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
                 accuracy = location.getAccuracy();
+
+                Log.e("LocationListener", longitude+" "+latitude+" "+accuracy);
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
+                Log.e("LocationListener", "onStatusChanged");
+
+                if (provider.equals(LocationManager.GPS_PROVIDER))
+                    availGPS = false;
+                else
+                    availNetwork = false;
             }
 
             @Override
             public void onProviderEnabled(String provider) {
-                if (LocationManager.GPS_PROVIDER.equals(provider)) {
+                Log.e("LocationListener", "onProviderEnabled");
+
+                if (provider.equals(LocationManager.GPS_PROVIDER))
                     availGPS = true;
-                    provider = LocationManager.GPS_PROVIDER;
-                } else {
+                else
                     availNetwork = true;
-                    provider = LocationManager.NETWORK_PROVIDER;
-                }
-                locationManager.removeUpdates(locationListener);
-                reqLocation();
+
+                locationManager.requestLocationUpdates(provider, POLLING, 0, locationListener);
             }
 
             @Override
             public void onProviderDisabled(String provider) {
-                if (LocationManager.GPS_PROVIDER.equals(provider)) {
-                    availGPS = false;
-                    if (availNetwork) {
-                        provider = LocationManager.NETWORK_PROVIDER;
-                        locationManager.removeUpdates(locationListener);
-                        reqLocation();
-                    } else {
-                        provider = null;
-                        locationManager.removeUpdates(locationListener);
-                    }
-                } else {
-                    availNetwork = false;
-                    if (availGPS) {
-                        provider = LocationManager.GPS_PROVIDER;
-                        locationManager.removeUpdates(locationListener);
-                        reqLocation();
-                    } else {
-                        provider = null;
-                        locationManager.removeUpdates(locationListener);
-                    }
-                }
+                Log.e("LocationListener", "onProviderDisabled");
             }
         };
 
@@ -94,13 +80,15 @@ public class LocationTracker {
             provider = LocationManager.NETWORK_PROVIDER;
         }
 
-        locationManager.requestLocationUpdates(provider, POLLING, 0, locationListener);
+        if (availGPS || availNetwork)
+            locationManager.requestLocationUpdates(provider, POLLING, 0, locationListener);
     }
 
     public Location getLocation () {
-        if (availGPS || availNetwork)
+        if (availGPS || availNetwork) {
+            Log.e("hihi", "HIHIHIHI");
             return locationManager.getLastKnownLocation(provider);
-        else
+        } else
             return null;
     }
 
