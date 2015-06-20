@@ -10,6 +10,7 @@ import com.example.y.travel_diary.Utils.MapItem;
 
 public class MapListLayout extends RelativeLayout{
     private TextView nameText = null;
+    private TextView addressText = null;
     private Context mContext;
 
     public MapListLayout(Context context) {
@@ -31,10 +32,12 @@ public class MapListLayout extends RelativeLayout{
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.maplist_layout, this, true);
         nameText = (TextView) findViewById(R.id.ml_name);
+        addressText = (TextView) findViewById(R.id.ml_address);
     }
 
     public void setItem(MapItem mi) {
         nameText.setText(mi.getName());
+        addressText.setText(mi.getAddress());
     }
 
     @Override

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:onClick="gotoAddPlan"
-        android:text="새로운 plan을 설정해주십시오"/>
+        android:text="새로운 계획을 세우세요!"/>
 
     <ImageView
         android:id="@+id/image_new_plan"

@@ -81,32 +81,14 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
         }
 
         cursor.close();
+
+        showToast("검색 후 말풍선을 클릭하면 저장됩니다.");
     }
 
     public void onMapViewInitialized(MapView mapView) {
         Log.i(LOG_TAG, "MapView had loaded. Now, MapView APIs could be called safely");
 
         mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(37.537229, 127.005515), 2, true);
-
-        Searcher searcher = new Searcher();
-        String query = map_query.getText().toString();
-        double latitude = 37.537229;
-        double longitude = 127.005515;
-        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-        int page = 1;
-        String apikey = MapAPI.MAP_API;
-
-        searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
-            @Override
-            public void onSuccess(final List<MapSearchItem> itemList) {
-                showResult(itemList);
-            }
-
-            @Override
-            public void onFail() {
-                showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
-            }
-        });
     }
 
 
@@ -193,19 +175,19 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
         MapSearchItem item = mTagItemMap.get(mapPOIItem.getTag());
-        StringBuilder sb = new StringBuilder();
-        sb.append("title=").append(item.title).append("\n");
-        sb.append("imageUrl=").append(item.imageUrl).append("\n");
-        sb.append("address=").append(item.address).append("\n");
-        sb.append("newAddress=").append(item.newAddress).append("\n");
-        sb.append("zipcode=").append(item.zipcode).append("\n");
-        sb.append("phone=").append(item.phone).append("\n");
-        sb.append("category=").append(item.category).append("\n");
-        sb.append("longitude=").append(item.longitude).append("\n");
-        sb.append("latitude=").append(item.latitude).append("\n");
-        sb.append("distance=").append(item.distance).append("\n");
-        sb.append("direction=").append(item.direction).append("\n");
-        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("title=").append(item.title).append("\n");
+//        sb.append("imageUrl=").append(item.imageUrl).append("\n");
+//        sb.append("address=").append(item.address).append("\n");
+//        sb.append("newAddress=").append(item.newAddress).append("\n");
+//        sb.append("zipcode=").append(item.zipcode).append("\n");
+//        sb.append("phone=").append(item.phone).append("\n");
+//        sb.append("category=").append(item.category).append("\n");
+//        sb.append("longitude=").append(item.longitude).append("\n");
+//        sb.append("latitude=").append(item.latitude).append("\n");
+//        sb.append("distance=").append(item.distance).append("\n");
+//        sb.append("direction=").append(item.direction).append("\n");
+//        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
 
         ContentValues values = new ContentValues();
         values.put(dbhelper._ID, id);
