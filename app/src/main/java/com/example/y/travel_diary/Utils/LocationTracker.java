@@ -6,6 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Y on 2015-06-20.
@@ -22,7 +23,6 @@ public class LocationTracker {
 
     private boolean availGPS = false;
     private boolean availNetwork = false;
-    private String provider = null;
 
     private Context mContext;
 
@@ -75,21 +75,29 @@ public class LocationTracker {
         availNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         if (availGPS) {
-            provider = LocationManager.GPS_PROVIDER;
-        } else if (availNetwork) {
-            provider = LocationManager.NETWORK_PROVIDER;
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, POLLING, 0, locationListener);
         }
 
-        if (availGPS || availNetwork)
-            locationManager.requestLocationUpdates(provider, POLLING, 0, locationListener);
+        if (availNetwork) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, POLLING, 0, locationListener);
+        }
+
+        if (!availGPS && !availNetwork)
+            Toast.makeText(mContext, "위치 추적 기능이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
     }
 
     public Location getLocation () {
         if (availGPS || availNetwork) {
-            Log.e("hihi", "HIHIHIHI");
-            return locationManager.getLastKnownLocation(provider);
-        } else
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (location == null)
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            return location;
+        } else {
+            Toast.makeText(mContext, "위치 추적 기능이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
             return null;
+        }
     }
 
     public void destroy () {

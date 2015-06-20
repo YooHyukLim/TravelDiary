@@ -203,6 +203,7 @@ public class MainListAdapter extends BaseAdapter{
             Toast.makeText(activity, "위치 정보를 받아 올 수 없습니다.", Toast.LENGTH_SHORT).show();
         } else {
             mapPoint = MapPoint.mapPointWithGeoCoord(location.getLatitude(), location.getLongitude());
+            mapPointBounds.add(mapPoint);
             ml.mapView.addPOIItem(makeMapPOIItem("내 위치", 0, mapPoint));
         }
 
