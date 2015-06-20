@@ -88,7 +88,7 @@ public class MainListAdapter extends BaseAdapter{
                     text.append(day+"일 ");
                 if(hour != 0)
                     text.append(hour+"시간 ");
-                text.append(min+"분");
+                text.append(min+"분 뒤에");
 
                 MainItem mi = new MainItem(MainItem.PLAN,
                                         text.toString(),
