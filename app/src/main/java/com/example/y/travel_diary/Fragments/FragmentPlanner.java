@@ -77,6 +77,8 @@ public class FragmentPlanner extends Fragment {
             } else {
                 create_plan_view (view, cursor);
             }
+
+            cursor.close();
         }
     }
 

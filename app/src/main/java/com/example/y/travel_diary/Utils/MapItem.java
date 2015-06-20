@@ -5,10 +5,10 @@ public class MapItem {
     int mid;
     String name;
     String address;
-    long longitude;
-    long latitude;
+    double longitude;
+    double latitude;
 
-    public MapItem(int mid, String name, String address, long longitude, long latitude) {
+    public MapItem(int mid, String name, String address, double longitude, double latitude) {
         this.mid = mid;
         this.name = name;
         this.address = address;
@@ -28,11 +28,11 @@ public class MapItem {
         return address;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 }

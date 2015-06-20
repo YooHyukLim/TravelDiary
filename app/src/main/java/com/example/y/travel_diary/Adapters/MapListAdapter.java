@@ -36,8 +36,8 @@ public class MapListAdapter extends BaseAdapter{
             MapItem mi = new MapItem(cursor.getInt(midCol),
                                      cursor.getString(nameCol),
                                      cursor.getString(addressCol),
-                                     cursor.getLong(longCol),
-                                     cursor.getLong(latCol));
+                                     cursor.getDouble(longCol),
+                                     cursor.getDouble(latCol));
             maplist.add(mi);
         }
     }

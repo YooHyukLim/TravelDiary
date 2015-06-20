@@ -90,6 +90,7 @@ public class FragmentMap extends Fragment {
                     MapItem mapItem = madapter.getItem(position);
                     MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(mapItem.getLatitude(), mapItem.getLongitude());
                     mapView.moveCamera(CameraUpdateFactory.newMapPoint(mapPoint));
+                    mapView.selectPOIItem(mTagItemMap.get(mapItem.getMid()), false);
                 }
             });
 
