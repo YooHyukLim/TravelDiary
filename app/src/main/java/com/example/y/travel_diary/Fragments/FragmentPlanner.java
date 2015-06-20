@@ -1,7 +1,9 @@
 package com.example.y.travel_diary.Fragments;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.y.travel_diary.Activities.AlertReceiver;
 import com.example.y.travel_diary.Activities.EditOldPlan;
 import com.example.y.travel_diary.Adapters.PlanListAdapter;
 import com.example.y.travel_diary.MainActivity;
@@ -96,7 +99,7 @@ public class FragmentPlanner extends Fragment {
 
         list_plan.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long iD) {
                 int pid = padapter.getItem(pos).getpid();
                 boolean alarm = !padapter.getItem(pos).getAlarm();
 
@@ -108,6 +111,23 @@ public class FragmentPlanner extends Fragment {
 
                 padapter.getItem(pos).setAlarm(alarm);
                 padapter.notifyDataSetChanged();
+
+                if(alarm == true){
+                    AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+                    Intent Intent = new Intent(getActivity(), AlertReceiver.class);
+
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, padapter.getItem(pos).getSdate(),
+                            PendingIntent.getBroadcast(getActivity(), padapter.getItem(pos).getpid(), Intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT));
+                }else{
+                    AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+                    Intent Intent = new Intent(getActivity(), AlertReceiver.class);
+
+                    alarmManager.cancel(PendingIntent.getBroadcast(getActivity(), padapter.getItem(pos).getpid(), Intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT));
+                }
 
                 return true;
             }

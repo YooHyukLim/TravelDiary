@@ -1,9 +1,11 @@
 package com.example.y.travel_diary.Activities;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -42,6 +44,7 @@ public class EditOldPlan extends Activity {
     private Date edate = null;
     private Switch alarmswitch = null;
     private boolean isalarmed = false;
+    private boolean isa = false;
     private int pyear;
     private int pmonth;
     private int pday;
@@ -64,7 +67,7 @@ public class EditOldPlan extends Activity {
         String content = intent.getStringExtra("pc");
         long sd = intent.getLongExtra("ps", 0);
         long ed = intent.getLongExtra("pe", 0);
-        boolean isa = intent.getBooleanExtra("pa",false);
+        isa = intent.getBooleanExtra("pa",false);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M/dd H:mm");
         sdate = new Date(sd);
@@ -127,6 +130,26 @@ public class EditOldPlan extends Activity {
             db.update(dbhelper.PLAN_TABLE, values,
                     dbhelper._ID + "=? AND " + dbhelper.PLAN_ID + "=?",
                     new String[]{String.valueOf(id), String.valueOf(plan_id)});
+
+            if(isa != isalarmed){
+                if(isalarmed == true){
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                    Intent Intent = new Intent(this, AlertReceiver.class);
+
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, sdate.getTime(),
+                            PendingIntent.getBroadcast(this, plan_id, Intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT));
+                }else{
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                    Intent Intent = new Intent(this, AlertReceiver.class);
+
+                    alarmManager.cancel(PendingIntent.getBroadcast(this, plan_id, Intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT));
+                }
+            }
+
             finish();
         }else{
             Toast.makeText(this,"빈칸을 채워주세요.",Toast.LENGTH_SHORT).show();
