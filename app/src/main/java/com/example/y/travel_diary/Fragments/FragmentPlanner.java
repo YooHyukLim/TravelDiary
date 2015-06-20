@@ -119,6 +119,7 @@ public class FragmentPlanner extends Fragment {
     private AlertDialog createDialog(AdapterView adapterView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        builder.setMessage(padapter.getItem(position).getContent());
         builder.setNegativeButton("Edit!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

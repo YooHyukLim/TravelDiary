@@ -1,12 +1,15 @@
 package com.example.y.travel_diary.Activities;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -119,6 +122,19 @@ public class AddNewPlan extends Activity {
             values.put(dbhelper.PLAN_EDATE, edate.getTime());
             values.put(dbhelper.PLAN_ALARM, isalarmed);
             db.insert(dbhelper.PLAN_TABLE, null, values);
+
+            Toast.makeText(this,String.valueOf(sdate.getTime()),Toast.LENGTH_SHORT).show();
+
+            if(isalarmed) {
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                Intent Intent = new Intent(this, AlertReceiver.class);
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, sdate.getTime(),
+                        PendingIntent.getBroadcast(this, max_pid+1, Intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT));
+            }
+
 
             finish();
         } else {

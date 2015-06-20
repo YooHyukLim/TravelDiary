@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.y.travel_diary.Activities.AddNewBucket;
 import com.example.y.travel_diary.Activities.AddNewMap;
+import com.example.y.travel_diary.Activities.AddNewPlan;
 import com.example.y.travel_diary.Activities.AddNewTravel;
 import com.example.y.travel_diary.Fragments.FragmentAlbum;
 import com.example.y.travel_diary.Fragments.FragmentHome;
@@ -118,6 +119,11 @@ public class MainActivity extends Activity {
 
     public void gotoAddMap(View view) {
         Intent intent = new Intent(this, AddNewMap.class);
+        startActivity(intent);
+    }
+
+    public void gotoAddPlan(View view) {
+        Intent intent = new Intent(this, AddNewPlan.class);
         startActivity(intent);
     }
 }
