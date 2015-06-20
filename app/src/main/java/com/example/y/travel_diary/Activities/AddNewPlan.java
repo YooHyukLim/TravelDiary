@@ -111,8 +111,7 @@ public class AddNewPlan extends Activity {
 
     public void plan_insertDB(View v) {
         String text = nametext.getText().toString();
-        String text2 = contenttext.getText().toString();
-        if(!text.trim().equals("") && !text2.trim().equals("") && sdate != null && edate != null) {
+        if(!text.trim().equals("") && sdate != null && edate != null) {
             ContentValues values = new ContentValues();
             values.put(dbhelper._ID, id);
             values.put(dbhelper.PLAN_ID, max_pid +1);
@@ -122,8 +121,6 @@ public class AddNewPlan extends Activity {
             values.put(dbhelper.PLAN_EDATE, edate.getTime());
             values.put(dbhelper.PLAN_ALARM, isalarmed);
             db.insert(dbhelper.PLAN_TABLE, null, values);
-
-            Toast.makeText(this,String.valueOf(sdate.getTime()),Toast.LENGTH_SHORT).show();
 
             if(isalarmed) {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

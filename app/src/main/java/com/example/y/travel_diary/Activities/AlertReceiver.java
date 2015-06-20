@@ -39,12 +39,9 @@ public class AlertReceiver extends BroadcastReceiver{
         // Defines the Intent to fire when the notification is clicked
         mBuilder.setContentIntent(notificIntent);
 
-        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
-        long[] pattern = {0, 500, 1000, 1500, 2000, 2500, 3000, 3500 , 4000, 4500, 5000 ,
-                5500, 6000, 6500 , 7000, 7500, 8000 , 8500, 9000, 9500 , 10000, 10500, 11000};
+        long[] pattern = {250, 500, 750, 1000, 1250, 1500, 1750 , 2000, 2250, 2500};
 
         v.vibrate(pattern,-1);
 

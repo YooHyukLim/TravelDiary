@@ -119,8 +119,7 @@ public class EditOldPlan extends Activity {
 
     public void plan_insertDB(View v) {
         String text = nametext.getText().toString();
-        String text2 = contenttext.getText().toString();
-        if(!text.trim().equals("") && !text2.trim().equals("") && sdate != null && edate != null) {
+        if(!text.trim().equals("") && sdate != null && edate != null) {
             ContentValues values = new ContentValues();
             values.put(dbhelper.PLAN_NAME, nametext.getText().toString());
             values.put(dbhelper.PLAN_CONTENT, contenttext.getText().toString());
