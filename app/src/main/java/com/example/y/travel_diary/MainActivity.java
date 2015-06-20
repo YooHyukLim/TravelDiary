@@ -89,15 +89,18 @@ public class MainActivity extends Activity {
         Intent intent;
 
         switch (view.getId()) {
+            case R.id.button_new_start:
             case R.id.image_new_start:
                 intent = new Intent(this, AddNewTravel.class);
                 break;
             case R.id.image_new_map:
                 intent = new Intent(this, AddNewMap.class);
                 break;
+            case R.id.button_new_bucket:
             case R.id.image_new_bucket:
                 intent = new Intent(this, AddNewBucket.class);
                 break;
+            case R.id.button_new_plan:
             case R.id.image_new_plan:
                 intent = new Intent(this, AddNewPlan.class);
                 break;
