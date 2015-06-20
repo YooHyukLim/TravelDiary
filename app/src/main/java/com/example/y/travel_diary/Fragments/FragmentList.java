@@ -83,15 +83,16 @@ public class FragmentList extends Fragment {
 
         list_bucket.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long lid) {
                 int bid = badapter.getItem(pos).getBid();
                 boolean done = !badapter.getItem(pos).isDone();
 
                 ContentValues values = new ContentValues();
-                values.put(dbhelper.BUCKET_DONE, done);
-                db.update(dbhelper.BUCKET_TABLE, values,
+                values.put(dbhelper.BUCKET_DONE, done ? 1 : 0);
+
+                int result = db.update(dbhelper.BUCKET_TABLE, values,
                         dbhelper._ID + "=? AND " + dbhelper.BUCKET_ID + "=?",
-                        new String[] {String.valueOf(id), String.valueOf(bid)});
+                        new String[]{String.valueOf(id), String.valueOf(bid)});
 
                 badapter.getItem(pos).setDone(done);
                 badapter.notifyDataSetChanged();

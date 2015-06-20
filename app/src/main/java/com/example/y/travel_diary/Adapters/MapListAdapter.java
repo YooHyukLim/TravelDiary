@@ -27,6 +27,7 @@ public class MapListAdapter extends BaseAdapter{
         int length = cursor.getCount();
         int midCol = cursor.getColumnIndex(DataBaseHelper.MAP_ID);
         int nameCol = cursor.getColumnIndex(DataBaseHelper.MAP_NAME);
+        int addressCol = cursor.getColumnIndex(DataBaseHelper.MAP_ADDRESS);
         int longCol = cursor.getColumnIndex(DataBaseHelper.MAP_LONG);
         int latCol = cursor.getColumnIndex(DataBaseHelper.MAP_LAT);
 
@@ -34,6 +35,7 @@ public class MapListAdapter extends BaseAdapter{
             cursor.moveToNext();
             MapItem mi = new MapItem(cursor.getInt(midCol),
                                      cursor.getString(nameCol),
+                                     cursor.getString(addressCol),
                                      cursor.getLong(longCol),
                                      cursor.getLong(latCol));
             maplist.add(mi);

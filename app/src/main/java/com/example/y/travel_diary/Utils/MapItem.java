@@ -4,12 +4,14 @@ public class MapItem {
     final public static int MAP_VIEW  = -1;
     int mid;
     String name;
+    String address;
     long longitude;
     long latitude;
 
-    public MapItem(int mid, String name, long longitude, long latitude) {
+    public MapItem(int mid, String name, String address, long longitude, long latitude) {
         this.mid = mid;
         this.name = name;
+        this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
     }
@@ -20,6 +22,10 @@ public class MapItem {
 
     public String getName() {
         return name;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public long getLongitude() {
