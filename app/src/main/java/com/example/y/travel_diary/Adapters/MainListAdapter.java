@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
+import com.example.y.travel_diary.Utils.LocationTracker;
 import com.example.y.travel_diary.Utils.MainItem;
 import com.example.y.travel_diary.Utils.MapAPI;
 import com.example.y.travel_diary.Utils.MapItem;
@@ -38,6 +41,7 @@ public class MainListAdapter extends BaseAdapter{
     private SharedPreferences pref = null;
     private DataBaseHelper dbhelper = null;
     private SQLiteDatabase db = null;
+    private LocationTracker tracker = null;
     private int id;
 
     private Activity activity;
@@ -118,7 +122,7 @@ public class MainListAdapter extends BaseAdapter{
         int length = cursor.getCount();
         cursor.close();
 
-        mainList.add(new MainItem(MainItem.BUCKET, "My bucket "+cnt+"/"+length));
+        mainList.add(new MainItem(MainItem.BUCKET, "My bucket " + cnt + "/" + length));
     }
 
     public void clear() {
@@ -169,23 +173,26 @@ public class MainListAdapter extends BaseAdapter{
         int longCol = cursor.getColumnIndex(DataBaseHelper.MAP_LONG);
         int latCol = cursor.getColumnIndex(DataBaseHelper.MAP_LAT);
 
+        tracker = new LocationTracker(mContext);
+        Location location = tracker.getLocation();
+        tracker.destroy();
+        MapPoint mapPoint;
+
+        if(location == null) {
+            Toast.makeText(activity, "위치 정보를 받아 올 수 없습니다.", Toast.LENGTH_SHORT).show();
+        } else {
+            mapPoint = MapPoint.mapPointWithGeoCoord(location.getLatitude(), location.getLongitude());
+            ml.mapView.addPOIItem(makeMapPOIItem("내 위치", 0, mapPoint));
+        }
+
         for (int i = 0; i < length; i++) {
             cursor.moveToNext();
 
-            MapPOIItem poiItem = new MapPOIItem();
-            poiItem.setItemName(cursor.getString(nameCol));
-            poiItem.setTag(cursor.getInt(midCol));
-            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(cursor.getDouble(latCol), cursor.getDouble(longCol));
-            poiItem.setMapPoint(mapPoint);
+            mapPoint = MapPoint.mapPointWithGeoCoord(cursor.getDouble(latCol), cursor.getDouble(longCol));
             mapPointBounds.add(mapPoint);
-            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
-            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-            poiItem.setCustomImageAutoscale(false);
-            poiItem.setCustomImageAnchor(0.5f, 1.0f);
-
-            ml.mapView.addPOIItem(poiItem);
+            ml.mapView.addPOIItem(makeMapPOIItem(cursor.getString(nameCol),
+                                                cursor.getInt(midCol),
+                                                mapPoint));
         }
 
         ml.mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
@@ -196,6 +203,21 @@ public class MainListAdapter extends BaseAdapter{
         }
 
         cursor.close();
+    }
+
+    public MapPOIItem makeMapPOIItem (String name, int tag, MapPoint mapPoint) {
+        MapPOIItem poiItem = new MapPOIItem();
+        poiItem.setItemName(name);
+        poiItem.setTag(tag);
+        poiItem.setMapPoint(mapPoint);
+        poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+        poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+        poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+        poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+        poiItem.setCustomImageAutoscale(false);
+        poiItem.setCustomImageAnchor(0.5f, 1.0f);
+
+        return poiItem;
     }
 
     @Override

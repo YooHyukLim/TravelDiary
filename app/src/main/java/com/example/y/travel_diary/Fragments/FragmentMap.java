@@ -126,18 +126,8 @@ public class FragmentMap extends Fragment {
                     return;
                 }
 
-                MapPOIItem poiItem = new MapPOIItem();
-                poiItem.setItemName("내 위치");
-                poiItem.setTag(0);
                 MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(location.getLatitude(), location.getLongitude());
-                poiItem.setMapPoint(mapPoint);
-                poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-                poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
-                poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-                poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-                poiItem.setCustomImageAutoscale(false);
-                poiItem.setCustomImageAnchor(0.5f, 1.0f);
-
+                MapPOIItem poiItem = makeMapPOIItem("내 위치", 0, mapPoint);
                 mapView.addPOIItem(poiItem);
                 mTagItemMap.put(poiItem.getTag(), poiItem);
 
@@ -161,18 +151,8 @@ public class FragmentMap extends Fragment {
         for (int i = 0; i < length; i++) {
             MapItem mapItem = madapter.getItem(i);
 
-            MapPOIItem poiItem = new MapPOIItem();
-            poiItem.setItemName(mapItem.getName());
-            poiItem.setTag(mapItem.getMid());
             MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(mapItem.getLatitude(), mapItem.getLongitude());
-            poiItem.setMapPoint(mapPoint);
-            mapPointBounds.add(mapPoint);
-            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
-            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-            poiItem.setCustomImageAutoscale(false);
-            poiItem.setCustomImageAnchor(0.5f, 1.0f);
+            MapPOIItem poiItem = makeMapPOIItem(mapItem.getName(), mapItem.getMid(), mapPoint);
 
             mapView.addPOIItem(poiItem);
             mTagItemMap.put(poiItem.getTag(), poiItem);
@@ -184,6 +164,21 @@ public class FragmentMap extends Fragment {
         if (poiItems.length > 0) {
             mapView.selectPOIItem(poiItems[0], false);
         }
+    }
+
+    public MapPOIItem makeMapPOIItem (String name, int tag, MapPoint mapPoint) {
+        MapPOIItem poiItem = new MapPOIItem();
+        poiItem.setItemName(name);
+        poiItem.setTag(tag);
+        poiItem.setMapPoint(mapPoint);
+        poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+        poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+        poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+        poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+        poiItem.setCustomImageAutoscale(false);
+        poiItem.setCustomImageAnchor(0.5f, 1.0f);
+
+        return poiItem;
     }
 
     private AlertDialog createDialog(AdapterView adapterView) {

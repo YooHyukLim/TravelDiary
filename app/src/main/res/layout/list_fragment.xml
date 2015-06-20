@@ -29,5 +29,5 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:src="@drawable/bucket"
-        android:onClick="gotoAddBucket"/>
+        android:onClick="gotoAddActivity"/>
 </RelativeLayout>

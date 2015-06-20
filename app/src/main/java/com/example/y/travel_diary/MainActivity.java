@@ -85,6 +85,29 @@ public class MainActivity extends Activity {
         fragmentTransaction.commit();
     }
 
+    public void gotoAddActivity(View view) {
+        Intent intent;
+
+        switch (view.getId()) {
+            case R.id.image_new_start:
+                intent = new Intent(this, AddNewTravel.class);
+                break;
+            case R.id.image_new_map:
+                intent = new Intent(this, AddNewMap.class);
+                break;
+            case R.id.image_new_bucket:
+                intent = new Intent(this, AddNewBucket.class);
+                break;
+            case R.id.image_new_plan:
+                intent = new Intent(this, AddNewPlan.class);
+                break;
+            default:
+                return;
+        }
+
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -105,25 +128,5 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void gotoAddActivity(View view) {
-        Intent intent = new Intent(this, AddNewTravel.class);
-        startActivity(intent);
-    }
-
-    public void gotoAddBucket(View view) {
-        Intent intent = new Intent(this, AddNewBucket.class);
-        startActivity(intent);
-    }
-
-    public void gotoAddMap(View view) {
-        Intent intent = new Intent(this, AddNewMap.class);
-        startActivity(intent);
-    }
-
-    public void gotoAddPlan(View view) {
-        Intent intent = new Intent(this, AddNewPlan.class);
-        startActivity(intent);
     }
 }

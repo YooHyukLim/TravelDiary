@@ -28,7 +28,7 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:src="@drawable/new_start"
-        android:onClick="gotoAddMap"/>
+        android:onClick="gotoAddActivity"/>
 
     <ImageView
         android:id="@+id/image_my_pos"
