@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     final private static int NEW_START_ACTIVITY = 101;
     final public static String TRAVEL_PREF = "cur_travel";
     private SharedPreferences pref = null;
-    public int cur_id;
+    private int cur_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,5 +194,9 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setCur_id (int id) {
+        this.cur_id = id;
     }
 }
