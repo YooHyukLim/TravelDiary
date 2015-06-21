@@ -27,7 +27,7 @@
         <activity android:name="com.example.y.travel_diary.Activities.AddNewMap"/>
         <activity android:name="com.example.y.travel_diary.Activities.AddNewPlan"/>
         <activity android:name="com.example.y.travel_diary.Activities.EditOldPlan"/>
-        <receiver android:name="com.example.y.travel_diary.Activities.AlertReceiver"/>
+        <receiver android:name=".Utils.AlertReceiver"/>
     </application>
 
 </manifest>

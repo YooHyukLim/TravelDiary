@@ -16,22 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.y.travel_diary.Activities.AlertReceiver;
+import com.example.y.travel_diary.Utils.AlertReceiver;
 import com.example.y.travel_diary.Activities.EditOldPlan;
 import com.example.y.travel_diary.Adapters.PlanListAdapter;
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
-import com.example.y.travel_diary.Utils.PlanItem;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.zip.Inflater;
 
 public class FragmentPlanner extends Fragment {

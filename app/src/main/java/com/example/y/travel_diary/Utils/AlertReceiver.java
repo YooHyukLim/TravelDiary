@@ -1,4 +1,4 @@
-package com.example.y.travel_diary.Activities;
+package com.example.y.travel_diary.Utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;

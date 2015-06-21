@@ -25,11 +25,9 @@ import android.widget.Toast;
 
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
+import com.example.y.travel_diary.Utils.AlertReceiver;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
