@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class FragmentAlbum extends Fragment {
     private SharedPreferences pref = null;
     private Context mContext;
+    private ImageAdapter ia;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.album_fragment, container, false);
@@ -34,7 +35,7 @@ public class FragmentAlbum extends Fragment {
 
         pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
         GridView gv = (GridView)view.findViewById(R.id.ImgGridView);
-        final ImageAdapter ia = new ImageAdapter(mContext);
+        ia = new ImageAdapter(mContext);
         gv.setAdapter(ia);
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,7 +148,6 @@ public class FragmentAlbum extends Fragment {
                     }
                 }while (imageCursor.moveToNext());
             }
-            imageCursor.close();
             return;
         }
 
@@ -166,7 +166,6 @@ public class FragmentAlbum extends Fragment {
                     imageDataPath = imageCursor.getString(imgData);
                 }
             }
-            imageCursor.close();
             return imageDataPath;
         }
     }

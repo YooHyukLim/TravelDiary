@@ -88,6 +88,7 @@ public class TakePhoto extends Activity {
     @Override
     protected void onPause() {
         if(camera != null) {
+            Log.e("takephoto","onpause");
             camera.stopPreview();
             preview.setCamera(null);
             camera.release();
