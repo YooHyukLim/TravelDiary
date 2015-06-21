@@ -89,6 +89,7 @@ public class FragmentHome extends Fragment {
                 SharedPreferences pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("id", tadapter.getItem(position).get_id());
+                editor.putString("name",tadapter.getItem(position).getName());
                 editor.commit();
 
                 MainActivity activity = (MainActivity) getActivity();

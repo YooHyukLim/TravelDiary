@@ -19,6 +19,7 @@ import com.example.y.travel_diary.Activities.AddNewBucket;
 import com.example.y.travel_diary.Activities.AddNewMap;
 import com.example.y.travel_diary.Activities.AddNewPlan;
 import com.example.y.travel_diary.Activities.AddNewTravel;
+import com.example.y.travel_diary.Activities.TakePhoto;
 import com.example.y.travel_diary.Fragments.FragmentAlbum;
 import com.example.y.travel_diary.Fragments.FragmentHome;
 import com.example.y.travel_diary.Fragments.FragmentList;
@@ -151,6 +152,9 @@ public class MainActivity extends Activity {
             case R.id.button_new_plan:
             case R.id.image_new_plan:
                 intent = new Intent(this, AddNewPlan.class);
+                break;
+            case R.id.image_camera:
+                intent = new Intent(this, TakePhoto.class);
                 break;
             default:
                 return;
