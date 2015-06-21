@@ -18,7 +18,9 @@ public class AlertReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        createNotification(context, "Plan!", "Your plan is started!", "Alert");
+        String planName = intent.getStringExtra("planName");
+
+        createNotification(context, "Plan!", "Your plan \"" +planName +"\" " + "is started!"  , "Alert");
 
     }
 
@@ -31,7 +33,7 @@ public class AlertReceiver extends BroadcastReceiver{
         // Builds a notification
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.alarm)
+                        .setSmallIcon(R.drawable.hours)
                         .setContentTitle(msg)
                         .setTicker(msgAlert)
                         .setContentText(msgText);
@@ -41,7 +43,7 @@ public class AlertReceiver extends BroadcastReceiver{
 
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
-        long[] pattern = {250, 500, 750, 1000, 1250, 1500, 1750 , 2000, 2250, 2500};
+        long[] pattern = {350,250,350,250,350,250,350,250,350,250,350,250,350,250,350,250,350,250};
 
         v.vibrate(pattern,-1);
 

@@ -107,7 +107,7 @@ public class FragmentPlanner extends Fragment {
                 padapter.getItem(pos).setAlarm(alarm);
                 padapter.notifyDataSetChanged();
 
-                if(alarm == true){
+                if(alarm == true && System.currentTimeMillis() < padapter.getItem(pos).getSdate()){
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(getActivity(), AlertReceiver.class);
@@ -115,7 +115,7 @@ public class FragmentPlanner extends Fragment {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, padapter.getItem(pos).getSdate(),
                             PendingIntent.getBroadcast(getActivity(), padapter.getItem(pos).getpid(), Intent,
                                     PendingIntent.FLAG_UPDATE_CURRENT));
-                }else{
+                }else if(alarm == false){
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(getActivity(), AlertReceiver.class);
@@ -134,6 +134,7 @@ public class FragmentPlanner extends Fragment {
     private AlertDialog createDialog(AdapterView adapterView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        builder.setTitle(padapter.getItem(position).getName());
         builder.setMessage(padapter.getItem(position).getContent());
         builder.setNegativeButton("Edit!", new DialogInterface.OnClickListener() {
             @Override

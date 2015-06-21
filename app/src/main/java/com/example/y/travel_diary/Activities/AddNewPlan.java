@@ -120,10 +120,12 @@ public class AddNewPlan extends Activity {
             values.put(dbhelper.PLAN_ALARM, isalarmed);
             db.insert(dbhelper.PLAN_TABLE, null, values);
 
-            if(isalarmed) {
+            if(isalarmed && System.currentTimeMillis() < sdate.getTime()) {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                 Intent Intent = new Intent(this, AlertReceiver.class);
+
+                Intent.putExtra("planName",nametext.getText().toString());
 
                 alarmManager.set(AlarmManager.RTC_WAKEUP, sdate.getTime(),
                         PendingIntent.getBroadcast(this, max_pid+1, Intent,
@@ -170,17 +172,14 @@ public class AddNewPlan extends Activity {
 
                 if (dbcheck == 1) {
                     c.set(year, month, day);
-                    sdate = new Date(c.getTimeInMillis());
-
-                    if (edate == null || sdate.getTime() <= edate.getTime()) {
+                    if (edate == null || c.getTimeInMillis() <= edate.getTime()) {
                         DialogFragment myFragment = new TimeDialog();
                         myFragment.show(getFragmentManager(), "theDialog");
                     } else
                         Toast.makeText(getActivity(), "시작 날짜가 끝나는 날짜보다 늦습니다.", Toast.LENGTH_SHORT).show();
                 } else if (dbcheck == 2) {
                     c.set(year, month, day+1);
-                    edate = new Date(c.getTimeInMillis());
-                    if (sdate == null || sdate.getTime() <= edate.getTime()) {
+                    if (sdate == null || sdate.getTime() <= c.getTimeInMillis()) {
                         DialogFragment myFragment = new TimeDialog();
                         myFragment.show(getFragmentManager(), "theDialog");
                     } else
@@ -212,18 +211,17 @@ public class AddNewPlan extends Activity {
             c.set(pyear,pmonth,pday,hourOfDay, minute);
 
             if(dbcheck == 1){
-                sdate = new Date(c.getTimeInMillis());
-
-                if(edate == null || sdate.getTime() <= edate.getTime()) {
+                if(edate == null || c.getTimeInMillis() <= edate.getTime()) {
+                    sdate = new Date(c.getTimeInMillis());
                     sdatetext.setText(sd.format(sdate).toString());
                 }
                 else
                     Toast.makeText(getActivity(),"시작 날짜가 끝나는 날짜보다 늦습니다.",Toast.LENGTH_SHORT).show();
             }else if (dbcheck == 2){
-                edate = new Date(c.getTimeInMillis());
-
-                if(sdate == null || sdate.getTime() <= edate.getTime())
+                if(sdate == null || sdate.getTime() <= c.getTimeInMillis()) {
+                    edate = new Date(c.getTimeInMillis());
                     edatetext.setText(sd.format(edate).toString());
+                }
                 else
                     Toast.makeText(getActivity(),"끝나는 날짜가 시작 날짜보다 빠릅니다.",Toast.LENGTH_SHORT).show();
             }

@@ -131,7 +131,7 @@ public class EditOldPlan extends Activity {
                     new String[]{String.valueOf(id), String.valueOf(plan_id)});
 
             if(isa != isalarmed){
-                if(isalarmed == true){
+                if(isalarmed == true && System.currentTimeMillis() < sdate.getTime()){
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(this, AlertReceiver.class);
@@ -139,7 +139,7 @@ public class EditOldPlan extends Activity {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, sdate.getTime(),
                             PendingIntent.getBroadcast(this, plan_id, Intent,
                                     PendingIntent.FLAG_UPDATE_CURRENT));
-                }else{
+                }else if(isalarmed == false){
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(this, AlertReceiver.class);
