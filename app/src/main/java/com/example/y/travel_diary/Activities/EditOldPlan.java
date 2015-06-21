@@ -131,7 +131,7 @@ public class EditOldPlan extends Activity {
                     new String[]{String.valueOf(id), String.valueOf(plan_id)});
 
             if(isa != isalarmed){
-                if(isalarmed == true && System.currentTimeMillis() < sdate.getTime()){
+                if(isalarmed == true && System.currentTimeMillis() <= sdate.getTime()){
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(this, AlertReceiver.class);
@@ -180,6 +180,9 @@ public class EditOldPlan extends Activity {
                 isvalid = 1;
                 SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd");
                 Calendar c = Calendar.getInstance();
+                Calendar c2 = Calendar.getInstance();
+                c2.clear();
+
                 c.clear();
 
                 pyear = year;
@@ -188,19 +191,21 @@ public class EditOldPlan extends Activity {
 
                 if (dbcheck == 1) {
                     c.set(year, month, day);
-                    sdate = new Date(c.getTimeInMillis());
-
-                    if (edate == null || sdate.getTime() <= edate.getTime()) {
+                    c2.set(year, month, day+1);
+                    if ((edate == null || c.getTimeInMillis() <= edate.getTime()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
                         DialogFragment myFragment = new TimeDialog();
                         myFragment.show(getFragmentManager(), "theDialog");
+                    }else if(c.getTimeInMillis() < System.currentTimeMillis()){
+                        Toast.makeText(getActivity(),"지난 시간입니다.",Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(getActivity(), "시작 날짜가 끝나는 날짜보다 늦습니다.", Toast.LENGTH_SHORT).show();
                 } else if (dbcheck == 2) {
                     c.set(year, month, day+1);
-                    edate = new Date(c.getTimeInMillis());
-                    if (sdate == null || sdate.getTime() <= edate.getTime()) {
+                    if ((sdate == null || sdate.getTime() <= c.getTimeInMillis()) && c.getTimeInMillis() >= System.currentTimeMillis()) {
                         DialogFragment myFragment = new TimeDialog();
                         myFragment.show(getFragmentManager(), "theDialog");
+                    }else if(c.getTimeInMillis() < System.currentTimeMillis()){
+                        Toast.makeText(getActivity(),"지난 시간입니다.",Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(getActivity(), "끝나는 날짜가 시작 날짜보다 빠릅니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -211,6 +216,7 @@ public class EditOldPlan extends Activity {
     }
 
     public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+        int isvalid = 0;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
@@ -226,25 +232,34 @@ public class EditOldPlan extends Activity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd H:mm");
             Calendar c = Calendar.getInstance();
+            Calendar c2 = Calendar.getInstance();
             c.clear();
+            c2.clear();
+
             c.set(pyear,pmonth,pday,hourOfDay, minute);
+            c2.set(pyear,pmonth,pday,hourOfDay, minute+1);
 
-            if(dbcheck == 1){
-                sdate = new Date(c.getTimeInMillis());
-
-                if(edate == null || sdate.getTime() <= edate.getTime()) {
-                    sdatetext.setText(sd.format(sdate).toString());
+            if(isvalid == 0) {
+                isvalid = 1;
+                if (dbcheck == 1) {
+                    if ((edate == null || c.getTimeInMillis() <= edate.getTime()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
+                        sdate = new Date(c.getTimeInMillis());
+                        sdatetext.setText(sd.format(sdate).toString());
+                    } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
+                        Toast.makeText(getActivity(), "지난 시간입니다.", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(getActivity(), "시작 날짜가 끝나는 날짜보다 늦습니다.", Toast.LENGTH_SHORT).show();
+                } else if (dbcheck == 2) {
+                    if ((sdate == null || sdate.getTime() <= c.getTimeInMillis()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
+                        edate = new Date(c.getTimeInMillis());
+                        edatetext.setText(sd.format(edate).toString());
+                    } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
+                        Toast.makeText(getActivity(), "지난 시간입니다.", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(getActivity(), "끝나는 날짜가 시작 날짜보다 빠릅니다.", Toast.LENGTH_SHORT).show();
                 }
-                else
-                    Toast.makeText(getActivity(),"시작 날짜가 끝나는 날짜보다 늦습니다.",Toast.LENGTH_SHORT).show();
-            }else if (dbcheck == 2){
-                edate = new Date(c.getTimeInMillis());
-
-                if(sdate == null || sdate.getTime() <= edate.getTime())
-                    edatetext.setText(sd.format(edate).toString());
-                else
-                    Toast.makeText(getActivity(),"끝나는 날짜가 시작 날짜보다 빠릅니다.",Toast.LENGTH_SHORT).show();
-            }
+            }else
+                isvalid = 0;
         }
     }
 }

@@ -112,7 +112,7 @@ public class FragmentPlanner extends Fragment {
                 padapter.getItem(pos).setAlarm(alarm);
                 padapter.notifyDataSetChanged();
 
-                if(alarm == true && System.currentTimeMillis() < padapter.getItem(pos).getSdate()){
+                if(alarm == true && System.currentTimeMillis() <= padapter.getItem(pos).getSdate()){
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(getActivity(), AlertReceiver.class);
