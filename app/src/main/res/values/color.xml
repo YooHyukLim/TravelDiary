@@ -2,6 +2,7 @@
 <resources>
     <color name="text">#cc212121</color>
     <color name="text_shadow">#7F000000</color>
-    <color name="background">#FFEEEEEE</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="fragment_bg">#FFEEEEEE</color>
     <color name="theme">#666699</color>
 </resources>
