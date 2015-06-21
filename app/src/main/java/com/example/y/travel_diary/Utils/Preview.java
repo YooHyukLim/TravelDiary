@@ -33,6 +33,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
     }
 
     public void setCamera(Camera camera) {
+        Log.e("Preview", "setCamera");
         mCamera = camera;
         if (mCamera != null) {
             mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
@@ -60,9 +61,14 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
         final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         setMeasuredDimension(width, height);
+        Log.e("Preview", "Device " + width + " : " + height);
 
         if (mSupportedPreviewSizes != null) {
             mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
+            Log.e("Preview", "OptimalPreview " + mPreviewSize.width + " : " + mPreviewSize.height);
+            LayoutParams layoutParams = mSurfaceView.getLayoutParams();
+            layoutParams.height = mPreviewSize.width;
+            layoutParams.width = mPreviewSize.height;
         }
     }
 
@@ -95,6 +101,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.e("Preview", "surfaceCreated");
         // The Surface has been created, acquire the camera and tell it where
         // to draw.
         try {
@@ -116,7 +123,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.1;
-        double targetRatio = (double) w / h;
+        double targetRatio = (double) h / w;
         if (sizes == null) return null;
 
         Size optimalSize = null;
@@ -126,6 +133,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
 
         // Try to find an size match aspect ratio and size
         for (Size size : sizes) {
+            Log.e("Preview", "Support "+size.width+" : "+size.height);
             double ratio = (double) size.width / size.height;
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
             if (Math.abs(size.height - targetHeight) < minDiff) {
@@ -149,6 +157,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         if(mCamera != null) {
+            Log.e("Preview", "surfaceChanged");
             Camera.Parameters parameters = mCamera.getParameters();
             parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
             requestLayout();
@@ -157,5 +166,4 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
             mCamera.startPreview();
         }
     }
-
 }

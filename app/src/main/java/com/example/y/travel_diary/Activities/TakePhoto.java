@@ -55,7 +55,7 @@ public class TakePhoto extends Activity {
         pref = getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
         setContentView(R.layout.activity_takephoto);
 
-        preview = new Preview(this, (SurfaceView)findViewById(R.id.surfaceView));
+        preview = new Preview(this, (SurfaceView) findViewById(R.id.surfaceView));
         preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         ((FrameLayout) findViewById(R.id.layout)).addView(preview);
         preview.setKeepScreenOn(true);
