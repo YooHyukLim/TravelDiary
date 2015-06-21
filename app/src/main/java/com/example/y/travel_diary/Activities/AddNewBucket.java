@@ -9,10 +9,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
+import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
 public class AddNewBucket extends Activity {
@@ -48,6 +50,11 @@ public class AddNewBucket extends Activity {
         cursor.close();
 
         nametext = (EditText) findViewById(R.id.bucket_name);
+
+        TextView create = (TextView) findViewById(R.id.bucket_insert);
+        create.setOnTouchListener(new CustomTouchListener(create, 2));
+        TextView cancel = (TextView) findViewById(R.id.bucket_cancel);
+        cancel.setOnTouchListener(new CustomTouchListener(cancel, 2));
     }
 
     @Override

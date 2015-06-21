@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.AlertReceiver;
+import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
 import java.text.SimpleDateFormat;
@@ -88,6 +89,11 @@ public class AddNewPlan extends Activity {
                     isalarmed = false;
             }
         });
+
+        TextView create = (TextView) findViewById(R.id.createButton2);
+        create.setOnTouchListener(new CustomTouchListener(create, 2));
+        TextView cancel = (TextView) findViewById(R.id.cancelButton2);
+        cancel.setOnTouchListener(new CustomTouchListener(cancel, 2));
     }
 
     @Override

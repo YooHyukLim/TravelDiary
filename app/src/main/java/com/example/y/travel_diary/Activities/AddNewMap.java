@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
+import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 import com.example.y.travel_diary.Utils.MapAPI;
 import com.example.y.travel_diary.Utils.MapSearchItem;
@@ -52,7 +54,7 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
     private EditText map_query = null;
     private MapView mMapView = null;
     private ViewGroup mapViewContainer;
-    private Button mButtonSearch;
+    private TextView mButtonSearch;
     private HashMap<Integer, MapSearchItem> mTagItemMap = new HashMap<Integer, MapSearchItem>();
 
     @Override
@@ -67,11 +69,21 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
         id = pref.getInt("id", -1);
 
         map_query = (EditText) findViewById(R.id.map_query);
+        map_query.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER  && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if ( ((EditText)v).getLineCount() >= 1 )
+                        return true;
+                }
+                return false;
+            }
+        });
 
         Cursor cursor = db.query(DataBaseHelper.MAP_TABLE,
                 DataBaseHelper.MAP_COL,
                 DataBaseHelper._ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, dbhelper.MAP_ID+" DESC");
+                new String[]{String.valueOf(id)}, null, null, dbhelper.MAP_ID + " DESC");
 
         if (cursor.getCount() == 0)
             max_mid = 0;
@@ -81,8 +93,6 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
         }
 
         cursor.close();
-
-        showToast("");
     }
 
     public void onMapViewInitialized(MapView mapView) {
@@ -228,7 +238,8 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
         mapViewContainer = (ViewGroup) findViewById(R.id.search_map_view);
         mapViewContainer.addView(mMapView);
 
-        mButtonSearch = (Button) findViewById(R.id.button_search); // 검색버튼
+        mButtonSearch = (TextView) findViewById(R.id.button_search); // 검색버튼
+        mButtonSearch.setOnTouchListener(new CustomTouchListener(mButtonSearch, 3));
         mButtonSearch.setOnClickListener(new View.OnClickListener() { // 검색버튼 클릭 이벤트 리스너
             @Override
             public void onClick(View v) {
@@ -250,7 +261,10 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
                     @Override
                     public void onSuccess(List<MapSearchItem> itemList) {
                         mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-                        showResult(itemList); // 검색 결과 보여줌
+                        if (itemList.size() > 0)
+                            showResult(itemList); // 검색 결과 보여줌
+                        else
+                            showToast("검색 결과가 없습니다.");
                     }
 
                     @Override

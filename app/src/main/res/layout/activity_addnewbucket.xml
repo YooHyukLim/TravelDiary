@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/theme">
 
     <RelativeLayout
         android:orientation="vertical" android:layout_width="wrap_content"
@@ -14,49 +15,75 @@
 
         <TextView
             android:id="@+id/bucket_name_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:padding="10dp"
-            android:textColor="@color/text"
-            android:shadowColor="@color/text_shadow"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:shadowRadius="2"
-            android:text="@string/bucket_name"/>
-
-        <EditText
-            android:id="@+id/bucket_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bucket_name_textview"
-            android:textSize="30dp"
-            android:padding="10dp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:textSize="20dp"
-            android:id="@+id/bucket_insert"
-            android:onClick="bucket_insertDB"
-            android:layout_below="@id/bucket_name"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/customtextview"
+            android:ems="10"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="70dp"/>
+            android:text="할 일"
+            android:textColor="#FFFFFFFF"
+            android:padding="10dp"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textSize="20dp"
-            android:id="@+id/buckek_cancel"
-            android:onClick="bucket_cancel"
+            android:id="@+id/bucket_name"
+            android:textSize="20sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/bucket_name_textview"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/customedit"
+            android:ems="10"
+            android:padding="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/bucket_name"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="70dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create"
+                android:textSize="22sp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:id="@+id/bucket_insert"
+                android:onClick="bucket_insertDB"
+                android:clickable="true"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/customtextview"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:text="Cancel"
+                android:id="@+id/bucket_cancel"
+                android:onClick="bucket_cancel"
+                android:clickable="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/customtextview"/>
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

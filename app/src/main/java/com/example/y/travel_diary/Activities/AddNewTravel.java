@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.y.travel_diary.R;
+import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
 import java.text.SimpleDateFormat;
@@ -43,6 +44,11 @@ public class AddNewTravel extends Activity {
         nametext = (EditText) findViewById(R.id.NameText);
         sdatetext = (TextView) findViewById(R.id.SdateText);
         edatetext = (TextView) findViewById(R.id.EdateText);
+
+        TextView create = (TextView) findViewById(R.id.createButton);
+        create.setOnTouchListener(new CustomTouchListener(create, 2));
+        TextView cancel = (TextView) findViewById(R.id.cancelButton);
+        cancel.setOnTouchListener(new CustomTouchListener(cancel, 2));
     }
 
     @Override

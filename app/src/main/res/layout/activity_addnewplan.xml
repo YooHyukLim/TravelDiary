@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/theme">
 
     <RelativeLayout
         android:orientation="vertical" android:layout_width="wrap_content"
@@ -11,13 +12,38 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pl_title"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/customtextview"
+            android:ems="10"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="일정 추가하기"
+            android:textColor="#FFFFFFFF"
+            android:padding="10dp"/>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/plan_name"
-            android:textSize="30dp"
-            android:layout_alignParentTop="true"
+            android:textSize="20sp"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/pl_title"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/customedit"
+            android:ems="10"
             android:hint="Name"
             android:padding="10dp"/>
 
@@ -25,17 +51,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ContentText"
-            android:textSize="30dp"
-            android:layout_below="@+id/plan_name"
+            android:textSize="20sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/plan_name"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/customedit"
+            android:ems="10"
             android:hint="Content"
             android:padding="10dp"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/plan_SdateText"
-            android:textSize="30dp"
-            android:layout_below="@+id/ContentText"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/customedit"
+            android:ems="10"
+            android:layout_below="@id/ContentText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="Click and set Start date"
@@ -44,10 +82,15 @@
             android:padding="10dp"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/plan_EdateText"
-            android:textSize="30dp"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/customedit"
+            android:ems="10"
             android:layout_below="@+id/plan_SdateText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -65,29 +108,44 @@
             android:layout_below="@+id/plan_EdateText"
             android:id="@+id/switchAlarm"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create"
-            android:textSize="20dp"
-            android:id="@+id/createButton2"
-            android:onClick="plan_insertDB"
-            android:layout_below="@+id/switchAlarm"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="70dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/switchAlarm"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textSize="20dp"
-            android:id="@+id/cancelButton2"
-            android:onClick="plan_cancel"
-            android:layout_below="@+id/switchAlarm"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="70dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create"
+                android:textSize="22sp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:id="@+id/createButton2"
+                android:onClick="plan_insertDB"
+                android:clickable="true"
+                android:padding="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/customtextview"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:text="Cancel"
+                android:id="@+id/cancelButton2"
+                android:onClick="plan_cancel"
+                android:clickable="true"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/customtextview"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>
