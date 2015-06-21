@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
@@ -128,6 +129,7 @@ public class TakePhoto extends Activity {
         }
     };
 
+
     private class SaveImageTask extends AsyncTask<byte[], Void, Void> {
 
         @Override
@@ -152,6 +154,8 @@ public class TakePhoto extends Activity {
 
                 String fileName = String.format("%s_%s_%s_%d.jpg",strCurYear,strCurMonth,strCurDay, System.currentTimeMillis());
                 File outFile = new File(dir, fileName);
+
+
 
                 outStream = new FileOutputStream(outFile);
                 outStream.write(data[0]);

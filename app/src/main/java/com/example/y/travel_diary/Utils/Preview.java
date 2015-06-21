@@ -47,6 +47,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 // set Camera parameters
                 mCamera.setParameters(params);
+                mCamera.setDisplayOrientation(90);
             }
         }
     }
