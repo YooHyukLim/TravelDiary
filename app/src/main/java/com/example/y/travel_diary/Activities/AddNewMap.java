@@ -93,6 +93,8 @@ public class AddNewMap extends FragmentActivity implements MapView.MapViewEventL
         }
 
         cursor.close();
+
+        showToast("검색 후 말풍선을 터치하면 추가됩니다.");
     }
 
     public void onMapViewInitialized(MapView mapView) {

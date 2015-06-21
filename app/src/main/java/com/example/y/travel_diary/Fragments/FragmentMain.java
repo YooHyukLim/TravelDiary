@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.y.travel_diary.Adapters.MainListAdapter;
@@ -45,21 +46,37 @@ public class FragmentMain extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fr = null;
+                int fid = 0;
+                int drawable = 0;
 
                 switch (madapter.getItem(position).getType()) {
                     case MainItem.MAP:
+                        fid = R.id.button_map;
+                        drawable = R.drawable.mapimg;
                         fr = new FragmentMap();
                         break;
                     case MainItem.BUCKET:
+                        fid = R.id.button_list;
+                        drawable = R.drawable.listimg;
                         fr = new FragmentList();
                         break;
                     case MainItem.PLAN:
+                        fid = R.id.button_planner;
+                        drawable = R.drawable.planimg;
                         fr = new FragmentPlanner();
                         break;
                 }
 
                 if (fr == null)
                     return;
+
+                MainActivity activity = (MainActivity) getActivity();
+                activity.setCur_id(fid);
+
+                ImageView imageView = (ImageView) activity.findViewById(R.id.button_main);
+                imageView.setImageResource(R.drawable.mainimg2);
+                imageView = (ImageView) activity.findViewById(fid);
+                imageView.setImageResource(drawable);
 
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();

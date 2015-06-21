@@ -114,7 +114,30 @@ public class AddNewTravel extends Activity {
         finish();
     }
 
-    public class MyDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    public void getResultFromDialog (int year, int month, int day) {
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd");
+        Calendar c = Calendar.getInstance();
+        c.clear();
+        c.set(year, month, day);
+
+        if(dbcheck == 1){
+            sdate = new Date(c.getTimeInMillis());
+
+            if(edate == null || sdate.getTime() <= edate.getTime())
+                sdatetext.setText(sd.format(sdate).toString());
+            else
+                Toast.makeText(this,"시작 날짜가 끝나는 날짜보다 늦습니다.",Toast.LENGTH_SHORT).show();
+        }else if (dbcheck == 2){
+            edate = new Date(c.getTimeInMillis());
+
+            if(sdate == null || sdate.getTime() <= edate.getTime())
+                edatetext.setText(sd.format(edate).toString());
+            else
+                Toast.makeText(this,"끝나는 날짜가 시작 날짜보다 빠릅니다.",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static class MyDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -128,26 +151,8 @@ public class AddNewTravel extends Activity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd");
-            Calendar c = Calendar.getInstance();
-            c.clear();
-            c.set(year, month, day);
-
-            if(dbcheck == 1){
-                sdate = new Date(c.getTimeInMillis());
-
-                if(edate == null || sdate.getTime() <= edate.getTime())
-                    sdatetext.setText(sd.format(sdate).toString());
-                else
-                    Toast.makeText(getActivity(),"시작 날짜가 끝나는 날짜보다 늦습니다.",Toast.LENGTH_SHORT).show();
-            }else if (dbcheck == 2){
-                edate = new Date(c.getTimeInMillis());
-
-                if(sdate == null || sdate.getTime() <= edate.getTime())
-                    edatetext.setText(sd.format(edate).toString());
-                else
-                    Toast.makeText(getActivity(),"끝나는 날짜가 시작 날짜보다 빠릅니다.",Toast.LENGTH_SHORT).show();
-            }
+            AddNewTravel activity = (AddNewTravel) getActivity();
+            activity.getResultFromDialog(year, month, day);
         }
     }
 }

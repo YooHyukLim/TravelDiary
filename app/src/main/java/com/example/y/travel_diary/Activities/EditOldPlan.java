@@ -159,7 +159,70 @@ public class EditOldPlan extends Activity {
         finish();
     }
 
-    public class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    public void getResultFromDateDialog (int year, int month, int day) {
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd");
+        Calendar c = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c2.clear();
+        c.clear();
+
+        pyear = year;
+        pmonth = month;
+        pday = day;
+
+        if (dbcheck == 1) {
+            c.set(year, month, day);
+            c2.set(year, month, day + 1);
+            if ((edate == null || c.getTimeInMillis() <= edate.getTime()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
+                DialogFragment myFragment = new TimeDialog();
+                myFragment.show(getFragmentManager(), "theDialog");
+            } else if(c.getTimeInMillis() < System.currentTimeMillis()){
+                Toast.makeText(this,"지난 시간입니다.",Toast.LENGTH_SHORT).show();
+            }else
+                Toast.makeText(this, "시작 날짜가 끝나는 날짜보다 늦습니다.", Toast.LENGTH_SHORT).show();
+        } else if (dbcheck == 2) {
+            c.set(year, month, day+1);
+            if ((sdate == null || sdate.getTime() <= c.getTimeInMillis()) && c.getTimeInMillis() >= System.currentTimeMillis()) {
+                DialogFragment myFragment = new TimeDialog();
+                myFragment.show(getFragmentManager(), "theDialog");
+            } else if(c.getTimeInMillis() < System.currentTimeMillis()){
+                Toast.makeText(this,"지난 시간입니다.",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "끝나는 날짜가 시작 날짜보다 빠릅니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void getResultFromTimeDialog (int hourOfDay, int minute) {
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd H:mm");
+        Calendar c = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c.clear();
+        c2.clear();
+
+        c.set(pyear,pmonth,pday,hourOfDay, minute);
+        c2.set(pyear, pmonth, pday, hourOfDay, minute + 1);
+
+        if (dbcheck == 1) {
+            if ((edate == null || c.getTimeInMillis() <= edate.getTime()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
+                sdate = new Date(c.getTimeInMillis());
+                sdatetext.setText(sd.format(sdate).toString());
+            } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
+                Toast.makeText(this, "지난 시간입니다.", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(this, "시작 날짜가 끝나는 날짜보다 늦습니다.", Toast.LENGTH_SHORT).show();
+        } else if (dbcheck == 2) {
+            if ((sdate == null || sdate.getTime() <= c.getTimeInMillis()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
+                edate = new Date(c.getTimeInMillis());
+                edatetext.setText(sd.format(edate).toString());
+            } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
+                Toast.makeText(this, "지난 시간입니다.", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(this, "끝나는 날짜가 시작 날짜보다 빠릅니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         int isvalid = 0;
 
@@ -178,45 +241,18 @@ public class EditOldPlan extends Activity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             if(isvalid == 0) {
                 isvalid = 1;
-                SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd");
-                Calendar c = Calendar.getInstance();
-                Calendar c2 = Calendar.getInstance();
-                c2.clear();
-
-                c.clear();
-
-                pyear = year;
-                pmonth = month;
-                pday = day;
-
-                if (dbcheck == 1) {
-                    c.set(year, month, day);
-                    c2.set(year, month, day+1);
-                    if ((edate == null || c.getTimeInMillis() <= edate.getTime()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
-                        DialogFragment myFragment = new TimeDialog();
-                        myFragment.show(getFragmentManager(), "theDialog");
-                    }else if(c.getTimeInMillis() < System.currentTimeMillis()){
-                        Toast.makeText(getActivity(),"지난 시간입니다.",Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(getActivity(), "시작 날짜가 끝나는 날짜보다 늦습니다.", Toast.LENGTH_SHORT).show();
-                } else if (dbcheck == 2) {
-                    c.set(year, month, day+1);
-                    if ((sdate == null || sdate.getTime() <= c.getTimeInMillis()) && c.getTimeInMillis() >= System.currentTimeMillis()) {
-                        DialogFragment myFragment = new TimeDialog();
-                        myFragment.show(getFragmentManager(), "theDialog");
-                    }else if(c.getTimeInMillis() < System.currentTimeMillis()){
-                        Toast.makeText(getActivity(),"지난 시간입니다.",Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(getActivity(), "끝나는 날짜가 시작 날짜보다 빠릅니다.", Toast.LENGTH_SHORT).show();
-                }
+                EditOldPlan activity = (EditOldPlan) getActivity();
+                activity.getResultFromDateDialog(year, month, day);
             }else{
                 isvalid = 0;
             }
         }
     }
 
-    public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+    public static class TimeDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
         int isvalid = 0;
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
@@ -230,34 +266,10 @@ public class EditOldPlan extends Activity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd H:mm");
-            Calendar c = Calendar.getInstance();
-            Calendar c2 = Calendar.getInstance();
-            c.clear();
-            c2.clear();
-
-            c.set(pyear,pmonth,pday,hourOfDay, minute);
-            c2.set(pyear,pmonth,pday,hourOfDay, minute+1);
-
             if(isvalid == 0) {
                 isvalid = 1;
-                if (dbcheck == 1) {
-                    if ((edate == null || c.getTimeInMillis() <= edate.getTime()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
-                        sdate = new Date(c.getTimeInMillis());
-                        sdatetext.setText(sd.format(sdate).toString());
-                    } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
-                        Toast.makeText(getActivity(), "지난 시간입니다.", Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(getActivity(), "시작 날짜가 끝나는 날짜보다 늦습니다.", Toast.LENGTH_SHORT).show();
-                } else if (dbcheck == 2) {
-                    if ((sdate == null || sdate.getTime() <= c.getTimeInMillis()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
-                        edate = new Date(c.getTimeInMillis());
-                        edatetext.setText(sd.format(edate).toString());
-                    } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
-                        Toast.makeText(getActivity(), "지난 시간입니다.", Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(getActivity(), "끝나는 날짜가 시작 날짜보다 빠릅니다.", Toast.LENGTH_SHORT).show();
-                }
+                EditOldPlan activity = (EditOldPlan) getActivity();
+                activity.getResultFromTimeDialog(hourOfDay, minute);
             }else
                 isvalid = 0;
         }

@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
         int sid = view.getId();
         ImageView imageView = null;
 
-        if(pref.getInt("id", -1) == -1)
+        if(sid == cur_id || pref.getInt("id", -1) == -1)
             return;
 
         if (sid != R.id.button_home)
