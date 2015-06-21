@@ -47,48 +47,59 @@
             android:src="@drawable/ham"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <TableLayout
         android:id="@+id/buttons_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:stretchColumns="*"
         android:layout_below="@id/button_home"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_main"
-            android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick='selectFrag'
-            android:text="main" />
+            android:gravity="center_horizontal|center_vertical">
+            <ImageView
+                android:id="@+id/button_main"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:onClick='selectFrag'
+                android:clickable="true"
+                android:src="@drawable/mainimg2" />
 
-        <Button
-            android:id="@+id/button_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick='selectFrag'
-            android:text="map" />
+            <ImageView
+                android:id="@+id/button_map"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:onClick='selectFrag'
+                android:clickable="true"
+                android:src="@drawable/mapimg2" />
 
-        <Button
-            android:id="@+id/button_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick='selectFrag'
-            android:text="list" />
+            <ImageView
+                android:id="@+id/button_list"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:onClick='selectFrag'
+                android:clickable="true"
+                android:src="@drawable/listimg2" />
 
-        <Button
-            android:id="@+id/button_planner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick='selectFrag'
-            android:text="plan" />
+            <ImageView
+                android:id="@+id/button_planner"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:onClick='selectFrag'
+                android:clickable="true"
+                android:src="@drawable/planimg2" />
 
-        <Button
-            android:id="@+id/button_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick='selectFrag'
-            android:text="album" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/button_album"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:onClick='selectFrag'
+                android:clickable="true"
+                android:src="@drawable/albumimg2"/>
+        </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:id="@+id/fragment_place"
