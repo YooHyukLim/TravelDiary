@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -90,6 +91,9 @@ public class FragmentHome extends Fragment {
                 editor.putInt("id", tadapter.getItem(position).get_id());
                 editor.commit();
 
+                MainActivity activity = (MainActivity) view.getContext();
+                ImageView imageView = (ImageView) view.findViewById((activity.cur_id = R.id.button_main));
+                imageView.setImageResource(R.drawable.mainimg);
                 Fragment fr = new FragmentMain();
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();

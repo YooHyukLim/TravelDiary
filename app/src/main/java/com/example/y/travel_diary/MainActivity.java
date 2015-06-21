@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     final private static int NEW_START_ACTIVITY = 101;
     final public static String TRAVEL_PREF = "cur_travel";
     private SharedPreferences pref = null;
-    private int cur_id;
+    public int cur_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +164,8 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_START_ACTIVITY && resultCode == RESULT_OK) {
+            ImageView imageView = (ImageView) findViewById((cur_id = R.id.button_main));
+            imageView.setImageResource(R.drawable.mainimg);
             Fragment fr = new FragmentMain();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
