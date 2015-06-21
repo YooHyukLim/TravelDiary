@@ -28,13 +28,14 @@ public class FragmentAlbum extends Fragment {
     private SharedPreferences pref = null;
     private Context mContext;
     private ImageAdapter ia;
+    GridView gv;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.album_fragment, container, false);
         mContext = getActivity();
 
         pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
-        GridView gv = (GridView)view.findViewById(R.id.ImgGridView);
+        gv = (GridView)view.findViewById(R.id.ImgGridView);
         ia = new ImageAdapter(mContext);
         gv.setAdapter(ia);
 
@@ -47,6 +48,21 @@ public class FragmentAlbum extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        ia = new ImageAdapter(mContext);
+        gv.setAdapter(ia);
+
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ia.callImageViewer(i);
+            }
+        });
+        super.onResume();
     }
 
     public class ImageAdapter extends BaseAdapter {
