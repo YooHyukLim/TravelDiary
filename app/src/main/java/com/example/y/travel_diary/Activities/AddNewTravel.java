@@ -5,6 +5,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
@@ -31,6 +35,7 @@ public class AddNewTravel extends Activity {
     private Date sdate = null;
     private Date edate = null;
     private int dbcheck = 0;
+    private int max_id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,18 @@ public class AddNewTravel extends Activity {
         create.setOnTouchListener(new CustomTouchListener(create, 2));
         TextView cancel = (TextView) findViewById(R.id.cancelButton);
         cancel.setOnTouchListener(new CustomTouchListener(cancel, 2));
+
+        Cursor cursor = db.query(DataBaseHelper.TRAVEL_TABLE,
+                new String[] {DataBaseHelper._ID}, null, new String[] {}, null, null,
+                DataBaseHelper._ID + " DESC");
+
+        if (cursor.getCount() == 0)
+            max_id = 1;
+        else {
+            cursor.moveToNext();
+            max_id = cursor.getInt(cursor.getColumnIndex(dbhelper._ID)) + 1;
+        }
+        cursor.close();
     }
 
     @Override
@@ -72,12 +89,21 @@ public class AddNewTravel extends Activity {
         ContentValues values = new ContentValues();
         String text = nametext.getText().toString();
         if(!text.trim().equals("") && sdate != null && edate != null) {
+            values.put(dbhelper._ID, max_id);
             values.put(dbhelper.TRAVEL_NAME, nametext.getText().toString());
             values.put(dbhelper.TRAVEL_SDATE, sdate.getTime());
             values.put(dbhelper.TRAVEL_EDATE, edate.getTime());
 
             db.insert(dbhelper.TRAVEL_TABLE, null, values);
 
+            SharedPreferences pref = getSharedPreferences(MainActivity.TRAVEL_PREF, MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putInt("id", max_id);
+            editor.putString("name", nametext.getText().toString());
+            editor.commit();
+
+            Intent intent = new Intent();
+            this.setResult(RESULT_OK, intent);
             finish();
         } else {
             Toast.makeText(this,"빈칸을 채워주세요.",Toast.LENGTH_SHORT).show();

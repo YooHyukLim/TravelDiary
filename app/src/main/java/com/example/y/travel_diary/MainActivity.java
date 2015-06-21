@@ -28,6 +28,7 @@ import com.example.y.travel_diary.Fragments.FragmentPlanner;
 
 
 public class MainActivity extends Activity {
+    final private static int NEW_START_ACTIVITY = 101;
     final public static String TRAVEL_PREF = "cur_travel";
     private SharedPreferences pref = null;
     private int cur_id;
@@ -138,7 +139,8 @@ public class MainActivity extends Activity {
             case R.id.button_new_start:
             case R.id.image_new_start:
                 intent = new Intent(this, AddNewTravel.class);
-                break;
+                startActivityForResult(intent, NEW_START_ACTIVITY);
+                return;
             case R.id.image_new_map:
                 intent = new Intent(this, AddNewMap.class);
                 break;
@@ -155,6 +157,19 @@ public class MainActivity extends Activity {
         }
 
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_START_ACTIVITY && resultCode == RESULT_OK) {
+            Fragment fr = new FragmentMain();
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_place, fr);
+            fragmentTransaction.commit();
+        }
     }
 
     @Override
