@@ -100,12 +100,17 @@
             android:padding="10dp"/>
 
         <Switch
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:textSize="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="Alarm"
+            android:textColor="@color/theme"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
             android:layout_below="@+id/plan_EdateText"
+            android:background="@drawable/customedit"
             android:id="@+id/switchAlarm"/>
 
         <LinearLayout
