@@ -9,13 +9,17 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"/>
 
-    <Button
+    <TextView
         android:id="@+id/button_new_plan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
         android:layout_centerInParent="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/custombutton"
         android:onClick="gotoAddActivity"
-        android:text="새로운 plan을 설정해주십시오"/>
+        android:clickable="true"
+        android:text="@string/text_new_plan"
+        android:textStyle="bold"/>
 
     <ImageView
         android:id="@+id/image_new_plan"

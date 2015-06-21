@@ -6,10 +6,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.y.travel_diary.Activities.AddNewBucket;
 import com.example.y.travel_diary.Activities.AddNewMap;
@@ -35,6 +38,9 @@ public class MainActivity extends Activity {
         // Get the preference which indicates the information of
         // the current travel.
         pref = getSharedPreferences(TRAVEL_PREF, MODE_PRIVATE);
+
+        TextView homeTextView = (TextView) findViewById(R.id.textview_home);
+        homeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "apopcircle.otf"));
 
         Fragment fr;
         if ((pref != null) && pref.getInt("id", -1) != -1) {

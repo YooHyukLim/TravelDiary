@@ -17,12 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.y.travel_diary.Utils.AlertReceiver;
 import com.example.y.travel_diary.Activities.EditOldPlan;
 import com.example.y.travel_diary.Adapters.PlanListAdapter;
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
+import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
 import java.util.zip.Inflater;
@@ -33,8 +35,8 @@ public class FragmentPlanner extends Fragment {
     private SQLiteDatabase db = null;
     private ListView list_plan = null;
     private PlanListAdapter padapter = null;
-    private Inflater flater = null;
     private View view = null;
+    private TextView textViewNewPlan = null;
     private int position = -1;
     private int id;
     private int plan_id;
@@ -48,6 +50,9 @@ public class FragmentPlanner extends Fragment {
         db = dbhelper.getWritableDatabase();
 
         list_plan = (ListView) view.findViewById(R.id.list_plan);
+
+        textViewNewPlan = (TextView) view.findViewById(R.id.button_new_plan);
+        textViewNewPlan.setOnTouchListener(new CustomTouchListener(textViewNewPlan));
 
         return view;
     }

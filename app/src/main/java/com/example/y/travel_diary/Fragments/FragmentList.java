@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.y.travel_diary.Adapters.BucketListAdapter;
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
+import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
 public class FragmentList extends Fragment {
@@ -27,6 +29,7 @@ public class FragmentList extends Fragment {
     private ListView list_bucket = null;
     private BucketListAdapter badapter = null;
     private View view = null;
+    private TextView textViewNewBucket = null;
     private int position = -1;
     private int id;
 
@@ -39,6 +42,9 @@ public class FragmentList extends Fragment {
         db = dbhelper.getWritableDatabase();
 
         list_bucket = (ListView) view.findViewById(R.id.list_bucket);
+
+        textViewNewBucket = (TextView) view.findViewById(R.id.button_new_bucket);
+        textViewNewBucket.setOnTouchListener(new CustomTouchListener(textViewNewBucket));
 
         return view;
     }

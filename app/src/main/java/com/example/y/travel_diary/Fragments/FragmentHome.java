@@ -11,15 +11,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.y.travel_diary.Adapters.TravelListAdapter;
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
+import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
+
+import org.w3c.dom.Text;
 
 public class FragmentHome extends Fragment {
     private SharedPreferences pref = null;
@@ -27,6 +32,7 @@ public class FragmentHome extends Fragment {
     private SQLiteDatabase db = null;
     private TravelListAdapter tadapter = null;
     private ListView list_travel = null;
+    private TextView textViewNewStart = null;
     private View view = null;
     private int id = -1;
     private int position = -1;
@@ -41,6 +47,9 @@ public class FragmentHome extends Fragment {
         db = dbhelper.getWritableDatabase();
 
         list_travel = (ListView) view.findViewById(R.id.list_travel);
+
+        textViewNewStart = (TextView) view.findViewById(R.id.button_new_start);
+        textViewNewStart.setOnTouchListener(new CustomTouchListener(textViewNewStart));
 
         return view;
     }
