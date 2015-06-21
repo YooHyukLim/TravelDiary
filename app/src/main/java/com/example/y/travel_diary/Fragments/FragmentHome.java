@@ -91,9 +91,6 @@ public class FragmentHome extends Fragment {
                 editor.putInt("id", tadapter.getItem(position).get_id());
                 editor.commit();
 
-                MainActivity activity = (MainActivity) view.getContext();
-                ImageView imageView = (ImageView) view.findViewById((activity.cur_id = R.id.button_main));
-                imageView.setImageResource(R.drawable.mainimg);
                 Fragment fr = new FragmentMain();
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
