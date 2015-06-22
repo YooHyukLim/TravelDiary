@@ -58,17 +58,26 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
         // We purposely disregard child measurements because act as a
         // wrapper to a SurfaceView that centers the camera preview instead
         // of stretching it.
-        final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-        final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
-        setMeasuredDimension(width, height);
-        Log.e("Preview", "Device " + width + " : " + height);
+        final int device_width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        final int device_height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
+        int width, height;
+        setMeasuredDimension(device_width, device_height);
+        Log.e("Preview", "Device " + device_width + " : " + device_height);
 
         if (mSupportedPreviewSizes != null) {
-            mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
+            mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, device_width, device_height);
             Log.e("Preview", "OptimalPreview " + mPreviewSize.width + " : " + mPreviewSize.height);
+
+            if (mPreviewSize.height >= mPreviewSize.width) {
+                width = device_width;
+                height = (int) (((double) mPreviewSize.width / (double) mPreviewSize.height) * (double) width);
+            } else {
+                height = device_height;
+                width = (int) (((double) mPreviewSize.height / (double) mPreviewSize.width) * (double) height);
+            }
             LayoutParams layoutParams = mSurfaceView.getLayoutParams();
-            layoutParams.height = mPreviewSize.width;
-            layoutParams.width = mPreviewSize.height;
+            layoutParams.width = width;
+            layoutParams.height = height;
         }
     }
 
