@@ -6,8 +6,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +32,15 @@ import com.example.y.travel_diary.Fragments.FragmentMain;
 import com.example.y.travel_diary.Fragments.FragmentMap;
 import com.example.y.travel_diary.Fragments.FragmentPlanner;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class MainActivity extends Activity {
     final private static int NEW_START_ACTIVITY = 101;
+    final private static int TAKE_CAMERA = 201;
     final public static String TRAVEL_PREF = "cur_travel";
     private SharedPreferences pref = null;
     private int cur_id;
@@ -154,8 +165,26 @@ public class MainActivity extends Activity {
                 intent = new Intent(this, AddNewPlan.class);
                 break;
             case R.id.image_camera:
-                intent = new Intent(this, TakePhoto.class);
-                break;
+//                intent = new Intent(this, TakePhoto.class);
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
+                SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
+                SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+
+                String strCurYear = CurYearFormat.format(date);
+                String strCurMonth = CurMonthFormat.format(date);
+                String strCurDay = CurDayFormat.format(date);
+
+                String pathName = Environment.getExternalStorageDirectory().getAbsolutePath()
+                                    + "/"+pref.getString("name", "TravleDiary") + "/";
+                String fileName = pathName + String.format("%s%s%s_%d.jpg",strCurYear,strCurMonth,strCurDay, System.currentTimeMillis());
+                Uri uri = Uri.fromFile(new File(fileName));
+
+                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(intent, TAKE_CAMERA);
+                return;
             default:
                 return;
         }
@@ -167,14 +196,46 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == NEW_START_ACTIVITY && resultCode == RESULT_OK) {
-            ImageView imageView = (ImageView) findViewById((cur_id = R.id.button_main));
-            imageView.setImageResource(R.drawable.mainimg);
-            Fragment fr = new FragmentMain();
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_place, fr);
-            fragmentTransaction.commit();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEW_START_ACTIVITY) {
+                ImageView imageView = (ImageView) findViewById((cur_id = R.id.button_main));
+                imageView.setImageResource(R.drawable.mainimg);
+                Fragment fr = new FragmentMain();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_place, fr);
+                fragmentTransaction.commit();
+            } else if (requestCode == TAKE_CAMERA) {
+                ImageView imageView = (ImageView) findViewById(R.id.button_main);
+                imageView.setImageResource(R.drawable.mainimg2);
+                imageView = (ImageView) findViewById(R.id.button_album);
+                imageView.setImageResource(R.drawable.albumimg);
+            }/* else if (requestCode == TAKE_CAMERA) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+                File sdCard = Environment.getExternalStorageDirectory();
+                File dir = new File (sdCard.getAbsolutePath() + "/"+pref.getString("name", "TravleDiary"));
+                dir.mkdirs();
+
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
+                SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
+                SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+
+                String strCurYear = CurYearFormat.format(date);
+                String strCurMonth = CurMonthFormat.format(date);
+                String strCurDay = CurDayFormat.format(date);
+
+                String fileName = String.format("%s_%s_%s_%d.jpg",strCurYear,strCurMonth,strCurDay, System.currentTimeMillis());
+
+                try {
+                    FileOutputStream out = new FileOutputStream(fileName);
+                    photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }*/
         }
     }
 

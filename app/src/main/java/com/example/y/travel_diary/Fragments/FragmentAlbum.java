@@ -7,12 +7,15 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -25,27 +28,28 @@ import com.example.y.travel_diary.Activities.ImagePop;
 import java.util.ArrayList;
 
 public class FragmentAlbum extends Fragment {
+    private int width;
+
     private SharedPreferences pref = null;
     private Context mContext;
     private ImageAdapter ia;
     GridView gv;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.album_fragment, container, false);
         mContext = getActivity();
+
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width = size.x / 3 - 5;
+
+        Log.e("size", width+"");
+
+        View view = inflater.inflate(R.layout.album_fragment, container, false);
 
         pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
         gv = (GridView)view.findViewById(R.id.ImgGridView);
-        ia = new ImageAdapter(mContext);
-        gv.setAdapter(ia);
-
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ia.callImageViewer(i);
-            }
-        });
 
         return view;
     }
@@ -85,7 +89,6 @@ public class FragmentAlbum extends Fragment {
             startActivityForResult(i, 1);
         }
 
-
         public boolean deleteSelected(int sIndex){
             return true;
         }
@@ -106,17 +109,17 @@ public class FragmentAlbum extends Fragment {
             ImageView imageView;
             if (convertView == null){
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(95, 95));
+                imageView.setLayoutParams(new GridView.LayoutParams(width, width));
                 imageView.setAdjustViewBounds(false);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(2, 2, 2, 2);
+                imageView.setPadding(5, 5, 5, 5);
             }else{
                 imageView = (ImageView) convertView;
             }
             BitmapFactory.Options bo = new BitmapFactory.Options();
             bo.inSampleSize = 8;
             Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
-            Bitmap resized = Bitmap.createScaledBitmap(bmp, 95, 95, true);
+            Bitmap resized = Bitmap.createScaledBitmap(bmp, width, width, true);
             imageView.setImageBitmap(resized);
 
             return imageView;

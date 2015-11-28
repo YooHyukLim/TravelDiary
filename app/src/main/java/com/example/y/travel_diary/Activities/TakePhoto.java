@@ -39,7 +39,6 @@ import com.example.y.travel_diary.Utils.Preview;
 public class TakePhoto extends Activity {
     private static final String TAG = "TakePhotoActivity";
     Preview preview;
-    Button buttonClick;
     Camera camera;
     Activity act;
     Context ctx;
@@ -64,6 +63,7 @@ public class TakePhoto extends Activity {
 
             @Override
             public void onClick(View arg0) {
+//                preview.mCamera.autoFocus(null);
                 camera.takePicture(shutterCallback, rawCallback, jpegCallback);
             }
         });
@@ -130,7 +130,7 @@ public class TakePhoto extends Activity {
     };
 
 
-    private class SaveImageTask extends AsyncTask<byte[], Void, Void> {
+    public class SaveImageTask extends AsyncTask<byte[], Void, Void> {
 
         @Override
         protected Void doInBackground(byte[]... data) {
