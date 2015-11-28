@@ -4,10 +4,13 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,7 +27,9 @@ import android.widget.ImageView;
 import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Activities.ImagePop;
+import com.example.y.travel_diary.Utils.BitmapWorkerTask;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class FragmentAlbum extends Fragment {
@@ -34,6 +39,7 @@ public class FragmentAlbum extends Fragment {
     private Context mContext;
     private ImageAdapter ia;
     GridView gv;
+    int img_cnt;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         mContext = getActivity();
@@ -75,21 +81,21 @@ public class FragmentAlbum extends Fragment {
         private ArrayList<String> thumbsDataList;
         private ArrayList<String> thumbsIDList;
 
-        ImageAdapter(Context c){
+        ImageAdapter(Context c) {
             mContext = c;
             thumbsDataList = new ArrayList<String>();
             thumbsIDList = new ArrayList<String>();
             getThumbInfo(thumbsIDList, thumbsDataList);
         }
 
-        public final void callImageViewer(int selectedIndex){
+        public final void callImageViewer(int selectedIndex) {
             Intent i = new Intent(mContext, ImagePop.class);
             String imgPath = getImageInfo(imgData, geoData, thumbsIDList.get(selectedIndex));
             i.putExtra("filename", imgPath);
             startActivityForResult(i, 1);
         }
 
-        public boolean deleteSelected(int sIndex){
+        public boolean deleteSelected(int sIndex) {
             return true;
         }
 
@@ -107,25 +113,26 @@ public class FragmentAlbum extends Fragment {
 
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView imageView;
-            if (convertView == null){
+            if (convertView == null) {
                 imageView = new ImageView(mContext);
                 imageView.setLayoutParams(new GridView.LayoutParams(width, width));
                 imageView.setAdjustViewBounds(false);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(5, 5, 5, 5);
-            }else{
+            } else {
                 imageView = (ImageView) convertView;
             }
-            BitmapFactory.Options bo = new BitmapFactory.Options();
-            bo.inSampleSize = 8;
-            Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
-            Bitmap resized = Bitmap.createScaledBitmap(bmp, width, width, true);
-            imageView.setImageBitmap(resized);
+//            BitmapFactory.Options bo = new BitmapFactory.Options();
+//            bo.inSampleSize = 16;
+//            Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
+//            Bitmap resized = Bitmap.createScaledBitmap(bmp, width, width, true);
+//            imageView.setImageBitmap(resized);
+            loadBitmap(mContext, thumbsDataList.get(position), imageView, width, width);
 
             return imageView;
         }
 
-        private void getThumbInfo(ArrayList<String> thumbsIDs, ArrayList<String> thumbsDatas){
+        private void getThumbInfo(ArrayList<String> thumbsIDs, ArrayList<String> thumbsDatas) {
             String[] proj = {MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
@@ -134,7 +141,7 @@ public class FragmentAlbum extends Fragment {
 
             Cursor imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, null, null, null);
-            if (imageCursor != null && imageCursor.moveToFirst()){
+            if (imageCursor != null && imageCursor.moveToFirst()) {
                 String title;
                 String thumbsID;
                 String thumbsImageID;
@@ -148,15 +155,15 @@ public class FragmentAlbum extends Fragment {
                 int thumbsFolderCol = imageCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
                 int thumbsImageIDCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
                 int thumbsSizeCol = imageCursor.getColumnIndex(MediaStore.Images.Media.SIZE);
-                int num = 0;
+                img_cnt = 0;
                 do {
                     thumbsID = imageCursor.getString(thumbsIDCol);
                     thumbsData = imageCursor.getString(thumbsDataCol);
                     thumbsImageID = imageCursor.getString(thumbsImageIDCol);
                     folder = imageCursor.getString(thumbsFolderCol);
                     imgSize = imageCursor.getString(thumbsSizeCol);
-                    num++;
-                    if(folder.equals(pref.getString("name","travelDiary"))) {
+                    img_cnt++;
+                    if (folder.equals(pref.getString("name", "travelDiary"))) {
                         if (thumbsImageID != null) {
                             Log.e("ID", thumbsID);
                             Log.e("imageID", thumbsImageID);
@@ -165,27 +172,83 @@ public class FragmentAlbum extends Fragment {
                             thumbsDatas.add(thumbsData);
                         }
                     }
-                }while (imageCursor.moveToNext());
+                } while (imageCursor.moveToNext());
             }
             return;
         }
 
-        private String getImageInfo(String ImageData, String Location, String thumbID){
+        private String getImageInfo(String ImageData, String Location, String thumbID) {
             String imageDataPath = null;
             String[] proj = {MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
                     MediaStore.Images.Media.SIZE};
             Cursor imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    proj, "_ID='"+ thumbID +"'", null, null);
+                    proj, "_ID='" + thumbID + "'", null, null);
 
-            if (imageCursor != null && imageCursor.moveToFirst()){
-                if (imageCursor.getCount() > 0){
+            if (imageCursor != null && imageCursor.moveToFirst()) {
+                if (imageCursor.getCount() > 0) {
                     int imgData = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
                     imageDataPath = imageCursor.getString(imgData);
                 }
             }
             return imageDataPath;
+        }
+
+
+        public void loadBitmap(Context context, String fileName, ImageView imageView,
+                               int width, int height) {
+            if (cancelPotentialWork(fileName, imageView)) {
+                final BitmapWorkerTask task = new BitmapWorkerTask(imageView, fileName);
+                final AsyncDrawable asyncDrawable =
+                        new AsyncDrawable(context.getResources(), null, task);
+                imageView.setImageDrawable(asyncDrawable); // imageView에 AsyncDrawable을 묶어줌
+                task.execute(width, height);
+            }
+        }
+
+        public boolean cancelPotentialWork(String fileName, ImageView imageView) {
+            final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
+
+            if (bitmapWorkerTask != null) {
+                final String bmpfileName = bitmapWorkerTask.fileName;
+                // If bitmapData is not yet set or it differs from the new data
+                if (bmpfileName == null || !bmpfileName.equals(fileName)) {
+                    // Cancel previous task
+                    bitmapWorkerTask.cancel(true);
+                } else {
+                    // The same work is already in progress
+                    return false;
+                }
+            }
+            // No task associated with the ImageView, or an existing task was cancelled
+            return true;
+        }
+
+        private BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
+            if (imageView != null) {
+                final Drawable drawable = imageView.getDrawable();
+                if (drawable instanceof AsyncDrawable) { //drawable 이 null일 경우 false 반환
+                    final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
+                    return asyncDrawable.getBitmapWorkerTask();
+                }
+            }
+            return null;
+        }
+
+        class AsyncDrawable extends BitmapDrawable {
+            private final WeakReference<BitmapWorkerTask> bitmapWorkerTaskReference;
+
+            public AsyncDrawable(Resources res, Bitmap bitmap,
+                                 BitmapWorkerTask bitmapWorkerTask) {
+                super(res, bitmap);
+                bitmapWorkerTaskReference =
+                        new WeakReference<BitmapWorkerTask>(bitmapWorkerTask);
+            }
+
+            public BitmapWorkerTask getBitmapWorkerTask() {
+                return bitmapWorkerTaskReference.get();
+            }
         }
     }
 }
