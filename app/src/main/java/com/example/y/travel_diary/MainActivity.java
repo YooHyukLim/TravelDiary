@@ -56,32 +56,51 @@ public class MainActivity extends Activity {
 
         TextView homeTextView = (TextView) findViewById(R.id.textview_home);
         homeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "apopcircle.otf"));
-
+Log.e("Main", "onCreate");
         Fragment fr;
         if ((pref != null) && pref.getInt("id", -1) != -1) {
-            cur_id = R.id.button_main;
-            ImageView mainImage = (ImageView) findViewById(R.id.button_main);
-            mainImage.setImageResource(R.drawable.mainimg);
-            fr = new FragmentMain();
+            cur_id = pref.getInt("cur_id", R.id.button_main);
         } else {
             cur_id = R.id.button_home;
-            fr = new FragmentHome();
         }
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_place, fr);
-        fragmentTransaction.commit();
+        changeFrag(cur_id);
     }
 
     // Change the fragment properly according to the Buttons clicked.
     public void selectFrag(View view) {
-        Fragment fr = null;
         int sid = view.getId();
-        ImageView imageView = null;
 
         if(sid == cur_id || pref.getInt("id", -1) == -1)
             return;
+
+        changeFrag(sid);
+    }
+
+    public void changeFrag(int sid) {
+        Fragment fr = null;
+        ImageView imageView = null;
+
+        if (cur_id != R.id.button_home) {
+            imageView = (ImageView) findViewById(cur_id);
+            switch (cur_id) {
+                case R.id.button_main:
+                    imageView.setImageResource(R.drawable.mainimg2);
+                    break;
+                case R.id.button_map:
+                    imageView.setImageResource(R.drawable.mapimg2);
+                    break;
+                case R.id.button_list:
+                    imageView.setImageResource(R.drawable.listimg2);
+                    break;
+                case R.id.button_planner:
+                    imageView.setImageResource(R.drawable.planimg2);
+                    break;
+                case R.id.button_album:
+                    imageView.setImageResource(R.drawable.albumimg2);
+                    break;
+            }
+        }
 
         if (sid != R.id.button_home)
             imageView = (ImageView) findViewById(sid);
@@ -112,28 +131,11 @@ public class MainActivity extends Activity {
                 break;
         }
 
-        if (cur_id != R.id.button_home) {
-            imageView = (ImageView) findViewById(cur_id);
-            switch (cur_id) {
-                case R.id.button_main:
-                    imageView.setImageResource(R.drawable.mainimg2);
-                    break;
-                case R.id.button_map:
-                    imageView.setImageResource(R.drawable.mapimg2);
-                    break;
-                case R.id.button_list:
-                    imageView.setImageResource(R.drawable.listimg2);
-                    break;
-                case R.id.button_planner:
-                    imageView.setImageResource(R.drawable.planimg2);
-                    break;
-                case R.id.button_album:
-                    imageView.setImageResource(R.drawable.albumimg2);
-                    break;
-            }
-        }
-
         cur_id = sid;
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("cur_id", sid);
+        editor.commit();
 
         if (fr == null)
             return;
