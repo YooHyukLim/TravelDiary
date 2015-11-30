@@ -33,8 +33,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class FragmentAlbum extends Fragment {
+    public Bitmap mPlaceHolder;
     private int width;
-
     private SharedPreferences pref = null;
     private Context mContext;
     private ImageAdapter ia;
@@ -57,11 +57,19 @@ public class FragmentAlbum extends Fragment {
         pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
         gv = (GridView)view.findViewById(R.id.ImgGridView);
 
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 1;
+
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder, options);
+        mPlaceHolder =  Bitmap.createScaledBitmap(bmp, width, width, true);
+
+
         return view;
     }
 
     @Override
     public void onResume() {
+        Log.e("FragmentAlbum", "onResume");
         ia = new ImageAdapter(mContext);
         gv.setAdapter(ia);
 
@@ -201,7 +209,7 @@ public class FragmentAlbum extends Fragment {
             if (cancelPotentialWork(fileName, imageView)) {
                 final BitmapWorkerTask task = new BitmapWorkerTask(imageView, fileName);
                 final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(context.getResources(), null, task);
+                        new AsyncDrawable(context.getResources(), mPlaceHolder, task);
                 imageView.setImageDrawable(asyncDrawable); // imageView에 AsyncDrawable을 묶어줌
                 task.execute(width, height);
             }

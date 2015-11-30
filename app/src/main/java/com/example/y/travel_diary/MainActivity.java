@@ -178,10 +178,17 @@ Log.e("Main", "onCreate");
                 String strCurMonth = CurMonthFormat.format(date);
                 String strCurDay = CurDayFormat.format(date);
 
-                String pathName = Environment.getExternalStorageDirectory().getAbsolutePath()
-                                    + "/"+pref.getString("name", "TravleDiary") + "/";
-                String fileName = pathName + String.format("%s%s%s_%d.jpg",strCurYear,strCurMonth,strCurDay, System.currentTimeMillis());
+                String dir_path = Environment.getExternalStorageDirectory().getAbsolutePath()
+                                    + "/"+pref.getString("name", "TravleDiary");
+                File dir = new File (dir_path);
+                if (!dir.exists()) {
+                    Log.e("filename", "create the directory");
+                    dir.mkdirs();
+                }
+
+                String fileName = dir_path + "/" + String.format("%s%s%s_%d.jpg",strCurYear,strCurMonth,strCurDay, System.currentTimeMillis());
                 Uri uri = Uri.fromFile(new File(fileName));
+                Log.e("filename", fileName);
 
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -208,11 +215,8 @@ Log.e("Main", "onCreate");
                 fragmentTransaction.replace(R.id.fragment_place, fr);
                 fragmentTransaction.commit();
             } else if (requestCode == TAKE_CAMERA) {
-                ImageView imageView = (ImageView) findViewById(R.id.button_main);
-                imageView.setImageResource(R.drawable.mainimg2);
-                imageView = (ImageView) findViewById(R.id.button_album);
-                imageView.setImageResource(R.drawable.albumimg);
-            }/* else if (requestCode == TAKE_CAMERA) {
+                Log.e("TAKE_CAMERA", "Return from camera");
+                /*
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
                 File sdCard = Environment.getExternalStorageDirectory();
@@ -236,8 +240,8 @@ Log.e("Main", "onCreate");
                     photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
-            }*/
+                }*/
+            }
         }
     }
 
@@ -265,5 +269,16 @@ Log.e("Main", "onCreate");
 
     public void setCur_id (int id) {
         this.cur_id = id;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        pref = getSharedPreferences(TRAVEL_PREF, MODE_PRIVATE);
+        if ((pref != null) && pref.getInt("id", -1) != -1) {
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putInt("cur_id", R.id.button_main);
+            editor.commit();
+        }
     }
 }
