@@ -44,7 +44,6 @@ public class FragmentMap extends Fragment {
     private ListView map_listView = null;
     private MapListAdapter madapter = null;
     private View view;
-    private ImageView my_pos = null;
     private MapView mapView;
     private ViewGroup mapViewContainer;
 
@@ -66,6 +65,7 @@ public class FragmentMap extends Fragment {
 
     @Override
     public void onResume() {
+        ImageView my_pos;
         super.onResume();
 
         tracker = new LocationTracker(getActivity().getApplicationContext());

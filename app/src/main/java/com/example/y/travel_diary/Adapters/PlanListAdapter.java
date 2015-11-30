@@ -2,13 +2,10 @@ package com.example.y.travel_diary.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.y.travel_diary.R;
-import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 import com.example.y.travel_diary.Utils.PlanItem;
 import com.example.y.travel_diary.Views.PlanListLayout;
@@ -19,10 +16,6 @@ import java.util.List;
 public class PlanListAdapter extends BaseAdapter{
     private Context mContext;
     private List <PlanItem> planList = new ArrayList<PlanItem>();
-
-    public PlanListAdapter(Context context) {
-        this.mContext = context;
-    }
 
     public PlanListAdapter(Context context, Cursor cursor) {
         this.mContext = context;
@@ -45,14 +38,6 @@ public class PlanListAdapter extends BaseAdapter{
                     cursor.getInt(alarmCol) == 1);
             planList.add(pi);
         }
-    }
-
-    public void addItem(PlanItem pi) {
-        planList.add(pi);
-    }
-
-    public void clear() {
-        planList.clear();
     }
 
     public void remove(int position) {

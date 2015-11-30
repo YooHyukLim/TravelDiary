@@ -34,7 +34,7 @@ public class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
             bitmap = null;
         }
 
-        if (imageViewReference != null && bitmap != null) {
+        if (bitmap != null) {
             final ImageView imageView = imageViewReference.get();
 
             if (imageView != null) {

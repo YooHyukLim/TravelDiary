@@ -100,7 +100,7 @@ public class AddNewTravel extends Activity {
             SharedPreferences.Editor editor = pref.edit();
             editor.putInt("id", max_id);
             editor.putString("name", nametext.getText().toString());
-            editor.commit();
+            editor.apply();
 
             Intent intent = new Intent();
             this.setResult(RESULT_OK, intent);
@@ -115,7 +115,7 @@ public class AddNewTravel extends Activity {
     }
 
     public void getResultFromDialog (int year, int month, int day) {
-        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd");
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd", getResources().getConfiguration().locale);
         Calendar c = Calendar.getInstance();
         c.clear();
         c.set(year, month, day);
@@ -124,14 +124,14 @@ public class AddNewTravel extends Activity {
             sdate = new Date(c.getTimeInMillis());
 
             if(edate == null || sdate.getTime() <= edate.getTime())
-                sdatetext.setText(sd.format(sdate).toString());
+                sdatetext.setText(sd.format(sdate));
             else
                 Toast.makeText(this,"시작 날짜가 끝나는 날짜보다 늦습니다.",Toast.LENGTH_SHORT).show();
         }else if (dbcheck == 2){
             edate = new Date(c.getTimeInMillis());
 
             if(sdate == null || sdate.getTime() <= edate.getTime())
-                edatetext.setText(sd.format(edate).toString());
+                edatetext.setText(sd.format(edate));
             else
                 Toast.makeText(this,"끝나는 날짜가 시작 날짜보다 빠릅니다.",Toast.LENGTH_SHORT).show();
         }

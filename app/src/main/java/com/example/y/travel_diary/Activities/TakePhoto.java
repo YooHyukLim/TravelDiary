@@ -36,6 +36,10 @@ import com.example.y.travel_diary.MainActivity;
 import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.Preview;
 
+/*
+    This class is not used for this application.
+ */
+
 public class TakePhoto extends Activity {
     private static final String TAG = "TakePhotoActivity";
     Preview preview;

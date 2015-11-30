@@ -16,13 +16,14 @@ import java.io.IOException;
 
 public class ImagePop extends Activity {
     private Bitmap bitmap;
-    private int device_width;
-    private int device_height;
-    private int width;
-    private int height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int device_width;
+        int device_height;
+        int width;
+        int height;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_popup);
 

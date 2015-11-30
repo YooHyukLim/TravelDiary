@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.BucketItem;
-import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 import com.example.y.travel_diary.Views.BucketListLayout;
 
@@ -18,10 +16,6 @@ import java.util.List;
 public class BucketListAdapter extends BaseAdapter{
     private Context mContext;
     private List <BucketItem> bucketlist = new ArrayList<BucketItem>();
-
-    public BucketListAdapter(Context context) {
-        this.mContext = context;
-    }
 
     public BucketListAdapter(Context context, Cursor cursor) {
         this.mContext = context;
@@ -38,14 +32,6 @@ public class BucketListAdapter extends BaseAdapter{
                                            cursor.getInt(doneCol) == 1);
             bucketlist.add(bi);
         }
-    }
-
-    public void addItem(BucketItem bi) {
-        bucketlist.add(bi);
-    }
-
-    public void clear() {
-        bucketlist.clear();
     }
 
     public void remove(int position) {

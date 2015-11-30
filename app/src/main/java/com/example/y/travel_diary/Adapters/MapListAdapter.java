@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.y.travel_diary.R;
-import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 import com.example.y.travel_diary.Utils.MapItem;
 import com.example.y.travel_diary.Views.MapListLayout;
@@ -18,10 +16,6 @@ import java.util.List;
 public class MapListAdapter extends BaseAdapter{
     private Context mContext;
     private List <MapItem> maplist = new ArrayList<MapItem>();
-
-    public MapListAdapter(Context context) {
-        this.mContext = context;
-    }
 
     public MapListAdapter(Context context, Cursor cursor) {
         this.mContext = context;
@@ -42,14 +36,6 @@ public class MapListAdapter extends BaseAdapter{
                                      cursor.getDouble(latCol));
             maplist.add(mi);
         }
-    }
-
-    public void addItem(MapItem mi) {
-        maplist.add(mi);
-    }
-
-    public void clear() {
-        maplist.clear();
     }
 
     public void remove(int position) {

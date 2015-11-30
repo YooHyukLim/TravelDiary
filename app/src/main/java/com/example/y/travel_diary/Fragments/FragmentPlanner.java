@@ -27,8 +27,6 @@ import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
-import java.util.zip.Inflater;
-
 public class FragmentPlanner extends Fragment {
     private SharedPreferences pref = null;
     private DataBaseHelper dbhelper = null;
@@ -36,12 +34,13 @@ public class FragmentPlanner extends Fragment {
     private ListView list_plan = null;
     private PlanListAdapter padapter = null;
     private View view = null;
-    private TextView textViewNewPlan = null;
     private int position = -1;
     private int id;
     private int plan_id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        TextView textViewNewPlan;
+
         view = inflater.inflate(R.layout.planner_fragment, container, false);
 
         pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
@@ -112,7 +111,7 @@ public class FragmentPlanner extends Fragment {
                 padapter.getItem(pos).setAlarm(alarm);
                 padapter.notifyDataSetChanged();
 
-                if(alarm == true && System.currentTimeMillis() <= padapter.getItem(pos).getSdate()){
+                if (alarm && System.currentTimeMillis() <= padapter.getItem(pos).getSdate()) {
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(getActivity(), AlertReceiver.class);
@@ -120,7 +119,7 @@ public class FragmentPlanner extends Fragment {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, padapter.getItem(pos).getSdate(),
                             PendingIntent.getBroadcast(getActivity(), padapter.getItem(pos).getpid(), Intent,
                                     PendingIntent.FLAG_UPDATE_CURRENT));
-                }else if(alarm == false){
+                } else if (!alarm) {
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
                     Intent Intent = new Intent(getActivity(), AlertReceiver.class);

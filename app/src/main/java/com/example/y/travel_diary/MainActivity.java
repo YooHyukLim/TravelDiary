@@ -165,9 +165,9 @@ Log.e("Main", "onCreate");
             case R.id.image_camera:
                 long now = System.currentTimeMillis();
                 Date date = new Date(now);
-                SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
-                SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
-                SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+                SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy", getResources().getConfiguration().locale);
+                SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM", getResources().getConfiguration().locale);
+                SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd", getResources().getConfiguration().locale);
 
                 String strCurYear = CurYearFormat.format(date);
                 String strCurMonth = CurMonthFormat.format(date);

@@ -32,8 +32,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EditOldPlan extends Activity {
-
-    private SharedPreferences pref = null;
     private DataBaseHelper dbhelper = null;
     private SQLiteDatabase db = null;
     private EditText nametext = null;
@@ -42,7 +40,6 @@ public class EditOldPlan extends Activity {
     private TextView edatetext = null;
     private Date sdate = null;
     private Date edate = null;
-    private Switch alarmswitch = null;
     private boolean isalarmed = false;
     private boolean isa = false;
     private int pyear;
@@ -54,6 +51,8 @@ public class EditOldPlan extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Switch alarmswitch;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addnewplan);
 
@@ -69,14 +68,12 @@ public class EditOldPlan extends Activity {
         long ed = intent.getLongExtra("pe", 0);
         isa = intent.getBooleanExtra("pa",false);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M/dd H:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M/dd H:mm", getResources().getConfiguration().locale);
         sdate = new Date(sd);
         edate = new Date(ed);
 
         final String sds = sdf.format(sdate).toString();
         final String eds = sdf.format(edate).toString();
-
-        pref = getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
 
         nametext = (EditText) findViewById(R.id.plan_name);
         contenttext = (EditText) findViewById(R.id.ContentText);
@@ -160,7 +157,7 @@ public class EditOldPlan extends Activity {
     }
 
     public void getResultFromDateDialog (int year, int month, int day) {
-        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd");
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd", getResources().getConfiguration().locale);
         Calendar c = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c2.clear();
@@ -194,7 +191,7 @@ public class EditOldPlan extends Activity {
     }
 
     public void getResultFromTimeDialog (int hourOfDay, int minute) {
-        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd H:mm");
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-M/dd H:mm", getResources().getConfiguration().locale);
         Calendar c = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c.clear();
@@ -206,7 +203,7 @@ public class EditOldPlan extends Activity {
         if (dbcheck == 1) {
             if ((edate == null || c.getTimeInMillis() <= edate.getTime()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
                 sdate = new Date(c.getTimeInMillis());
-                sdatetext.setText(sd.format(sdate).toString());
+                sdatetext.setText(sd.format(sdate));
             } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
                 Toast.makeText(this, "지난 시간입니다.", Toast.LENGTH_SHORT).show();
             } else
@@ -214,7 +211,7 @@ public class EditOldPlan extends Activity {
         } else if (dbcheck == 2) {
             if ((sdate == null || sdate.getTime() <= c.getTimeInMillis()) && c2.getTimeInMillis() >= System.currentTimeMillis()) {
                 edate = new Date(c.getTimeInMillis());
-                edatetext.setText(sd.format(edate).toString());
+                edatetext.setText(sd.format(edate));
             } else if (c.getTimeInMillis() < System.currentTimeMillis()) {
                 Toast.makeText(this, "지난 시간입니다.", Toast.LENGTH_SHORT).show();
             } else

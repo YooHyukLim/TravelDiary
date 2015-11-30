@@ -127,14 +127,6 @@ public class MainListAdapter extends BaseAdapter{
         mainList.add(new MainItem(MainItem.BUCKET, "My bucket " + cnt + "/" + length));
     }
 
-    public void clear() {
-        mainList.clear();
-    }
-
-    public void remove(int position) {
-        mainList.remove(position);
-    }
-
     @Override
     public int getCount() {
         return mainList.size();

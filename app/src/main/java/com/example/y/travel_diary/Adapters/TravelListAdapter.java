@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.y.travel_diary.R;
-import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 import com.example.y.travel_diary.Utils.TravelItem;
 import com.example.y.travel_diary.Views.HomeListLayout;
@@ -18,10 +16,6 @@ import java.util.List;
 public class TravelListAdapter extends BaseAdapter{
     private Context mContext;
     private List <TravelItem> travelList = new ArrayList<TravelItem>();
-
-    public TravelListAdapter (Context context) {
-        this.mContext = context;
-    }
 
     public TravelListAdapter (Context context, Cursor cursor) {
         this.mContext = context;
@@ -40,14 +34,6 @@ public class TravelListAdapter extends BaseAdapter{
                                            cursor.getLong(edateCol));
             travelList.add(ti);
         }
-    }
-
-    public void addItem(TravelItem ti) {
-        travelList.add(ti);
-    }
-
-    public void clear() {
-        travelList.clear();
     }
 
     public void remove(int position) {

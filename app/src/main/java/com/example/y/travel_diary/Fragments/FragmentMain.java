@@ -23,20 +23,13 @@ import com.example.y.travel_diary.Utils.DataBaseHelper;
 import com.example.y.travel_diary.Utils.MainItem;
 
 public class FragmentMain extends Fragment {
-    private SharedPreferences pref = null;
-    private DataBaseHelper dbhelper = null;
-    private SQLiteDatabase db = null;
-    private View view = null;
-    private ListView mainListView = null;
     private MainListAdapter madapter = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        ListView mainListView;
+        View view;
+
         view = inflater.inflate(R.layout.main_fragment, container, false);
-
-        pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
-
-        dbhelper = new DataBaseHelper(getActivity());
-        db = dbhelper.getWritableDatabase();
 
         mainListView = (ListView) view.findViewById(R.id.listview_main);
         madapter = new MainListAdapter(getActivity());

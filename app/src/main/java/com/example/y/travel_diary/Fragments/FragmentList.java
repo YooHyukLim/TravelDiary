@@ -29,11 +29,11 @@ public class FragmentList extends Fragment {
     private ListView list_bucket = null;
     private BucketListAdapter badapter = null;
     private View view = null;
-    private TextView textViewNewBucket = null;
     private int position = -1;
     private int id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        TextView textViewNewBucket;
         view = inflater.inflate(R.layout.list_fragment, container, false);
 
         pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
@@ -96,7 +96,7 @@ public class FragmentList extends Fragment {
                 ContentValues values = new ContentValues();
                 values.put(dbhelper.BUCKET_DONE, done ? 1 : 0);
 
-                int result = db.update(dbhelper.BUCKET_TABLE, values,
+                db.update(dbhelper.BUCKET_TABLE, values,
                         dbhelper._ID + "=? AND " + dbhelper.BUCKET_ID + "=?",
                         new String[]{String.valueOf(id), String.valueOf(bid)});
 

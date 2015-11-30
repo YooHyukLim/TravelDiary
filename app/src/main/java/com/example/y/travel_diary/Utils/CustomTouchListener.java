@@ -1,11 +1,8 @@
 package com.example.y.travel_diary.Utils;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.y.travel_diary.R;
@@ -59,8 +56,7 @@ public class CustomTouchListener implements View.OnTouchListener {
     }
 
     public int dp_to_px (Context context, int dp) {
-        int padding_in_dp = dp;  // 6 dps
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (padding_in_dp * scale + 0.5f);
+        return (int) (dp * scale + 0.5f);
     }
 }
