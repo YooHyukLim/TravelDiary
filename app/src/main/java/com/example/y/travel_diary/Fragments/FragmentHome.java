@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,20 +24,19 @@ import com.example.y.travel_diary.R;
 import com.example.y.travel_diary.Utils.CustomTouchListener;
 import com.example.y.travel_diary.Utils.DataBaseHelper;
 
-import org.w3c.dom.Text;
-
 public class FragmentHome extends Fragment {
     private SharedPreferences pref = null;
-    private DataBaseHelper dbhelper = null;
     private SQLiteDatabase db = null;
     private TravelListAdapter tadapter = null;
     private ListView list_travel = null;
-    private TextView textViewNewStart = null;
     private View view = null;
     private int id = -1;
     private int position = -1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        DataBaseHelper dbhelper;
+        TextView textViewNewStart;
+
         view = inflater.inflate(R.layout.home_fragment, container, false);
 
         pref = getActivity().getSharedPreferences(MainActivity.TRAVEL_PREF, Context.MODE_PRIVATE);
@@ -90,7 +88,7 @@ public class FragmentHome extends Fragment {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("id", tadapter.getItem(position).get_id());
                 editor.putString("name",tadapter.getItem(position).getName());
-                editor.commit();
+                editor.apply();
 
                 MainActivity activity = (MainActivity) getActivity();
                 activity.setCur_id(R.id.button_main);
@@ -140,7 +138,7 @@ public class FragmentHome extends Fragment {
                 if(cid == id) {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putInt("id", -1);
-                    editor.commit();
+                    editor.apply();
                 }
             }
         });

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -13,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -41,7 +39,6 @@ public class FragmentAlbum extends Fragment {
     private Context mContext;
     private ImageAdapter ia;
     GridView gv;
-    int img_cnt;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         mContext = getActivity();
@@ -64,7 +61,6 @@ public class FragmentAlbum extends Fragment {
 
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder, options);
         mPlaceHolder =  Bitmap.createScaledBitmap(bmp, width, width, true);
-
 
         return view;
     }
@@ -124,11 +120,7 @@ public class FragmentAlbum extends Fragment {
             } else {
                 imageView = (ImageView) convertView;
             }
-//            BitmapFactory.Options bo = new BitmapFactory.Options();
-//            bo.inSampleSize = 16;
-//            Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
-//            Bitmap resized = Bitmap.createScaledBitmap(bmp, width, width, true);
-//            imageView.setImageBitmap(resized);
+
             loadBitmap(mContext, thumbsDataList.get(position), imageView, width, width);
 
             return imageView;
@@ -141,58 +133,20 @@ public class FragmentAlbum extends Fragment {
 
                 File file = new File(path);
                 String str;
-                int num = 0;
 
                 if (file.exists() && file.listFiles().length > 0 )
                     for ( File f : file.listFiles() ) {
-                        str = f.getName();				// 파일 이름 얻어오기
+                        str = f.getName();
                         String filenameArray[] = str.split("\\.");
                         String extension = filenameArray[filenameArray.length-1];
 
                         if (extension.toLowerCase().equals("jpg")
                                 ||extension.toLowerCase().equals("png")) {
                             thumbsDatas.add(path + "/" + str);
-                            num++;
                             Log.e("imageID", path + "/" + str);
                         }
                     }
             }
-//            String[] proj = {
-//                    MediaStore.Images.Media.DATA,
-//                    MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
-//                    MediaStore.Images.Media.DISPLAY_NAME,
-//                    MediaStore.Images.Media.SIZE};
-//
-//            Cursor imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                    proj, null, null, null);
-//            if (imageCursor != null && imageCursor.moveToFirst()) {
-//                String thumbsImageID;
-//                String thumbsData;
-//                String folder;
-//
-//                int thumbsDataCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
-//                int thumbsFolderCol = imageCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
-//                int thumbsImageIDCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
-//                img_cnt = 0;
-//                do {
-//                    thumbsData = imageCursor.getString(thumbsDataCol);
-//                    thumbsImageID = imageCursor.getString(thumbsImageIDCol);
-//                    folder = imageCursor.getString(thumbsFolderCol);
-//                    img_cnt++;
-//                    Log.e("FragmentAlbum", "folder: "+folder+"/"+pref.getString("name", "travelDiary"));
-//                    Log.e("imageID", thumbsData);
-//                    if (folder.equals(pref.getString("name", "travelDiary"))) {
-//                        if (thumbsImageID != null) {
-//                            Log.e("imageID", thumbsImageID);
-//
-//                            thumbsDatas.add(thumbsData);
-//                        }
-//                    }
-//                } while (imageCursor.moveToNext());
-//                Log.e("FragmentAlbum", "Image Count: "+img_cnt);
-//            } else
-//                Log.e("FragmentAlbum", "Imagecursor NULL");
-            return;
         }
 
         public void loadBitmap(Context context, String fileName, ImageView imageView,

@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +22,6 @@ import com.example.y.travel_diary.Activities.AddNewBucket;
 import com.example.y.travel_diary.Activities.AddNewMap;
 import com.example.y.travel_diary.Activities.AddNewPlan;
 import com.example.y.travel_diary.Activities.AddNewTravel;
-import com.example.y.travel_diary.Activities.TakePhoto;
 import com.example.y.travel_diary.Fragments.FragmentAlbum;
 import com.example.y.travel_diary.Fragments.FragmentHome;
 import com.example.y.travel_diary.Fragments.FragmentList;
@@ -33,7 +30,6 @@ import com.example.y.travel_diary.Fragments.FragmentMap;
 import com.example.y.travel_diary.Fragments.FragmentPlanner;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -135,7 +131,7 @@ Log.e("Main", "onCreate");
 
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("cur_id", sid);
-        editor.commit();
+        editor.apply();
 
         if (fr == null)
             return;
@@ -167,7 +163,6 @@ Log.e("Main", "onCreate");
                 intent = new Intent(this, AddNewPlan.class);
                 break;
             case R.id.image_camera:
-//                intent = new Intent(this, TakePhoto.class);
                 long now = System.currentTimeMillis();
                 Date date = new Date(now);
                 SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
@@ -216,31 +211,6 @@ Log.e("Main", "onCreate");
                 fragmentTransaction.commit();
             } else if (requestCode == TAKE_CAMERA) {
                 Log.e("TAKE_CAMERA", "Return from camera");
-                /*
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-                File sdCard = Environment.getExternalStorageDirectory();
-                File dir = new File (sdCard.getAbsolutePath() + "/"+pref.getString("name", "TravleDiary"));
-                dir.mkdirs();
-
-                long now = System.currentTimeMillis();
-                Date date = new Date(now);
-                SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
-                SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
-                SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
-
-                String strCurYear = CurYearFormat.format(date);
-                String strCurMonth = CurMonthFormat.format(date);
-                String strCurDay = CurDayFormat.format(date);
-
-                String fileName = String.format("%s_%s_%s_%d.jpg",strCurYear,strCurMonth,strCurDay, System.currentTimeMillis());
-
-                try {
-                    FileOutputStream out = new FileOutputStream(fileName);
-                    photo.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
             }
         }
     }
@@ -278,7 +248,7 @@ Log.e("Main", "onCreate");
         if ((pref != null) && pref.getInt("id", -1) != -1) {
             SharedPreferences.Editor editor = pref.edit();
             editor.putInt("cur_id", R.id.button_main);
-            editor.commit();
+            editor.apply();
         }
     }
 }

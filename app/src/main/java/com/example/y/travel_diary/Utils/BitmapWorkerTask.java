@@ -2,10 +2,13 @@ package com.example.y.travel_diary.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
@@ -40,7 +43,7 @@ public class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
         }
     }
 
-    public static Bitmap decodeSampledBitmapFromResource(String fileName,
+    public Bitmap decodeSampledBitmapFromResource(String fileName,
                                                          int reqWidth, int reqHeight) {
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -53,16 +56,65 @@ public class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
         options.inSampleSize = 16;
 
         Bitmap bmp = BitmapFactory.decodeFile(fileName, options);
+        bmp = Bitmap.createScaledBitmap(bmp, reqWidth, reqHeight, true);
+
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (exif == null)
+            return null;
+
+        int exifOrientation = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+        int exifDegree = exifOrientationToDegrees(exifOrientation);
+        bmp = rotate(bmp, exifDegree);
+
 
         // Decode bitmap with inSampleSize set
 //        options.inJustDecodeBounds = false;
 
         if (bmp == null)
             Log.e("BitmapWorkerTask", fileName + " null");
-        return Bitmap.createScaledBitmap(bmp, reqWidth, reqHeight, true);
+
+        return bmp;
     }
 
-    public static int calculateInSampleSize(
+    public int exifOrientationToDegrees(int exifOrientation) {
+        if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
+    }
+
+    public Bitmap rotate(Bitmap bitmap, int degrees) {
+        if(degrees != 0 && bitmap != null) {
+            Matrix m = new Matrix();
+            m.setRotate(degrees, (float) bitmap.getWidth() / 2,
+                    (float) bitmap.getHeight() / 2);
+
+            try {
+                Bitmap converted = Bitmap.createBitmap(bitmap, 0, 0,
+                        bitmap.getWidth(), bitmap.getHeight(), m, true);
+                if(bitmap != converted) {
+                    bitmap.recycle();
+                    bitmap = converted;
+                }
+            } catch(OutOfMemoryError ex) {
+                //Out of Memory
+            }
+        }
+        return bitmap;
+    }
+
+    /*public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -83,5 +135,5 @@ public class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
         }
 
         return inSampleSize;
-    }
+    }*/
 }
