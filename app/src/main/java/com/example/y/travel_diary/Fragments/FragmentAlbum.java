@@ -143,7 +143,7 @@ public class FragmentAlbum extends Fragment {
                 String str;
                 int num = 0;
 
-                if ( file.listFiles().length > 0 )
+                if (file.exists() && file.listFiles().length > 0 )
                     for ( File f : file.listFiles() ) {
                         str = f.getName();				// 파일 이름 얻어오기
                         String filenameArray[] = str.split("\\.");
